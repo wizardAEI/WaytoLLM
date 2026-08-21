@@ -1,0 +1,118 @@
+/* ─── Design Tokens ──────────────────────────────────────────── */
+:root {
+  /* Color */
+  --navy: #031933;
+  --blue: rgb(23, 135, 216);
+  --blue-dark: #1177c1;
+  --bg: #ffffff;
+  --bg-sub: rgb(242, 248, 250);
+  --gray: #818c99;
+  --gray-dark: #4d4b43;
+  --white: #ffffff;
+  --border: #e6e6e6;
+
+  /* Font stacks */
+  --font-display: 'Space Grotesk', 'Helvetica Neue', sans-serif;
+  --font-sans:    'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  /* Button interaction spec
+     --btn-transition   : 所有按钮统一过渡属性
+     --btn-shift-fwd    : primary / 向前图标的 hover 位移（→）
+     --btn-shift-back   : previous / 向后图标的 hover 位移（←）
+   */
+  --btn-transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+  --btn-radius: 6px;
+  --btn-padding-y: 12px;
+  --btn-padding-x: 24px;
+  --btn-gap: 8px;
+  --btn-shift-fwd:  translateX(2px);
+  --btn-shift-back: translateX(-2px);
+
+  /* Scene motion spec */
+  --anim-entry-duration: 0.62s;
+  --anim-entry-blur: 8px;
+  --anim-entry-ease: power2.out;
+  --anim-entry-stagger: 0.08s;
+  --anim-drawer-duration: 0.48s;
+  --anim-slide-duration: 0.72s;
+}
+
+/* ─── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+/* ─── Base typography ────────────────────────────────────────── */
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--navy);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+code, pre, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* 章节路由切换动画:新章节提前进入,与旧章节短暂交叠,基于浏览器原生 View Transitions API */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation-name: chapter-blur-out;
+  animation-duration: 0.22s;
+}
+
+::view-transition-new(root) {
+  animation-name: chapter-blur-in;
+  animation-duration: 0.32s;
+  animation-delay: 0.08s;
+}
+
+@keyframes chapter-blur-out {
+  from {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(18px);
+  }
+}
+
+@keyframes chapter-blur-in {
+  from {
+    opacity: 0;
+    filter: blur(18px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}

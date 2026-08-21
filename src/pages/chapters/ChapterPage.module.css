@@ -1,0 +1,262 @@
+.chapter {
+  --stage-pull: -96px;
+  --stage-pad-top: 96px;
+  min-height: 100vh;
+  background: var(--white);
+  padding: 96px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chapterWithCover {
+  --stage-pull: 0px;
+  --stage-pad-top: 16px;
+  padding-top: 0;
+}
+
+.banner {
+  position: relative;
+  width: 100%;
+  height: min(48dvh, 520px);
+  margin: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.banner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  filter: saturate(1.05);
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, transparent 20%),
+    linear-gradient(180deg, transparent 58%, var(--white) 100%);
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 48px;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chapterHead {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+.tocWrapper {
+  position: relative;
+}
+
+.titleTrigger {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.switchIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  margin-right: 0;
+  color: var(--gray);
+  opacity: 0;
+  overflow: hidden;
+  transition: width 0.2s ease, margin-right 0.2s ease, opacity 0.2s ease,
+    color 0.15s;
+}
+
+.titleTrigger:hover .switchIcon,
+.titleTrigger[aria-expanded="true"] .switchIcon {
+  width: 14px;
+  margin-right: 8px;
+  opacity: 1;
+}
+
+.titleTrigger:hover .switchIcon {
+  color: var(--blue);
+}
+
+.titleTrigger:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.chapterLabel {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--blue);
+}
+
+.placeholder {
+  margin: 48px 0 0;
+  max-width: 42ch;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--gray);
+}
+
+.chapterFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 48px;
+}
+
+.navBtn,
+.navBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--btn-gap);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  transition: var(--btn-transition);
+}
+
+.buttonIcon {
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+
+.navBtn:focus-visible,
+.navBtnPrimary:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.navBtn {
+  color: var(--navy);
+  background: var(--bg);
+  border-color: var(--border);
+}
+
+.navBtn:hover {
+  background: var(--bg-sub);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.navBtn:hover .iconBack {
+  transform: var(--btn-shift-back);
+}
+
+.navBtnPrimary {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+  margin-left: auto;
+}
+
+.navBtnPrimary:hover {
+  background: var(--blue-dark);
+  border-color: var(--blue-dark);
+}
+
+.navBtnPrimary:hover .iconAdvance {
+  transform: var(--btn-shift-fwd);
+}
+
+.navBtn:active,
+.navBtnPrimary:active {
+  transform: translateY(1px);
+}
+
+/* 一点点显示文字:淡入 + 上移的滚动揭示动画 */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navBtn,
+  .navBtnPrimary,
+  .buttonIcon {
+    transition: none;
+  }
+
+  .navBtn:hover .iconBack,
+  .navBtnPrimary:hover .iconAdvance,
+  .navBtn:active,
+  .navBtnPrimary:active {
+    transform: none;
+  }
+
+  .reveal {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+@media (max-width: 860px) {
+  .container {
+    padding: 0 24px;
+  }
+
+  .chapter {
+    --stage-pull: -64px;
+    --stage-pad-top: 72px;
+    padding: 64px 0;
+  }
+
+  .chapterWithCover {
+    --stage-pull: 0px;
+    --stage-pad-top: 12px;
+    padding-top: 0;
+  }
+
+  .banner {
+    height: min(38dvh, 360px);
+  }
+
+  .chapterHead {
+    top: 16px;
+    left: 16px;
+    height: 28px;
+  }
+
+  .chapterFooter {
+    flex-wrap: wrap;
+  }
+
+  .navBtnPrimary {
+    margin-left: 0;
+  }
+}
