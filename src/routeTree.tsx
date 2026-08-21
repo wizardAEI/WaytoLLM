@@ -25,6 +25,8 @@ export const routeTree = rootRoute.addChildren([indexRoute, ...chapterRoutes]);
 
 export const router = createRouter({
   routeTree,
+  // Match the repository subpath used by GitHub Pages while keeping local dev at `/`.
+  basepath: import.meta.env.BASE_URL.replace(/\/$/, "") || "/",
   defaultViewTransition: true,
 });
 
