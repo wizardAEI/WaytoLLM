@@ -5,7 +5,7 @@ import { CHAPTERS } from "../config/chapters";
 import { SITE_NAME } from "../config/site";
 import { ChapterExplorer } from "../components/ChapterExplorer";
 
-const HOME_TITLE = `百闻不如一见 - ${SITE_NAME}`;
+const HOME_TITLE = `现代大模型指南 - ${SITE_NAME}`;
 
 export function HomePage() {
   const firstChapter = CHAPTERS[0];
