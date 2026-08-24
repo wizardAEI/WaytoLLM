@@ -1,28 +1,63 @@
-## Usage
+# 现代大模型指南
+
+WaytoLLM 是一个学习大模型各类基础知识、应用路线和落地教程的开源项目。
+
+项目以最新的大模型发展现状为基准，用简单但足够详细的内容，带你从基础的大模型入门知识，逐步了解企业级场景中的模型应用、部署、训练、评测与行业落地流程。中间套件和周边生态也会持续整理，目标是成为网络上相对最新、全面的现代大模型指南。
+
+## 内容路线
+
+- **前言**：了解学习大模型所需的背景与基本概念
+- **了解现代 LLM**：从 Transformer 和注意力机制开始，理解大模型的核心工作方式
+- **模型部署**：私有化部署、大模型网关、LLMOps、端侧模型与 Dense / MoE 选型
+- **模型训练**：模型后训练与量化等关键技术
+- **大模型应用框架**：梳理构建大模型应用时常用的中间件与工具链
+- **模型测评**：安全评测、通用能力回归、场景测试与测试集维护
+- **大模型行业应用**：医疗、银行、电信、法律、政企、教育、电商、视频等场景
+
+## 本地运行
+
+### 环境要求
+
+- Node.js 18+
+- npm（或其他兼容的 Node.js 包管理器）
+
+### 安装依赖
 
 ```bash
-$ npm install # or pnpm install or yarn install
+npm install
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+### 启动开发服务器
 
-## Available Scripts
+```bash
+npm run dev
+```
 
-In the project directory, you can run:
+启动后访问 [http://localhost:5173](http://localhost:5173)。
 
-### `npm run dev`
+### 构建生产版本
 
-Runs the app in the development mode.<br>
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+```bash
+npm run build
+```
 
-### `npm run build`
+构建产物会输出到 `dist` 目录。可以使用以下命令在本地预览生产构建：
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
+```bash
+npm run preview
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## 技术栈
 
-## Deployment
+- [SolidJS](https://solidjs.com/)：构建交互式页面
+- [TanStack Solid Router](https://tanstack.com/router)：页面路由
+- [Vite](https://vite.dev/)：开发与构建工具
+- [GSAP](https://gsap.com/) 与 D3：动画和可视化
 
-Learn more about deploying your application with the [documentations](https://vite.dev/guide/static-deploy.html)
+## 参与贡献
+
+欢迎通过 Issue 或 Pull Request 反馈内容错误、补充资料、提出新的章节建议，或改进交互式示例。
+
+## 开源协议
+
+项目当前未单独声明开源协议。提交代码或内容前，请先通过 Issue 与维护者确认授权范围。
