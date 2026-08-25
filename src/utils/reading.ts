@@ -1,7 +1,10 @@
 const CHARS_PER_MINUTE = 400;
 
+/** GPT3.5、LangChain、Co-Work、minimax-m3 这类英文单词 / 专名各算 1 */
+const LATIN_TOKEN = /[A-Za-z][A-Za-z0-9]*(?:[.\-][A-Za-z0-9]+)*/g;
+
 export function countChars(text: string): number {
-  return Array.from(text.replace(/\s+/g, "")).length;
+  return Array.from(text.replace(LATIN_TOKEN, "x").replace(/\s+/g, "")).length;
 }
 
 export function estimateMinutes(chars: number): number {
@@ -15,7 +18,7 @@ export function formatReading(text: string): string {
 }
 
 export function articlePlainText(root: ParentNode): string {
-  return Array.from(root.querySelectorAll("[data-reading]"))
-    .map((node) => node.textContent ?? "")
-    .join("");
+  const scoped = root.querySelector("[data-reading-root]");
+  const el = (scoped ?? root) as HTMLElement;
+  return (el.innerText ?? el.textContent ?? "").trim();
 }

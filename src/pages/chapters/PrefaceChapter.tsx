@@ -14,9 +14,7 @@ const TOC = [
 type TocId = (typeof TOC)[number]["id"];
 
 const Prose: Component<{ children: JSX.Element }> = (props) => (
-  <p class={styles.prose} data-reading>
-    {props.children}
-  </p>
+  <p class={styles.prose}>{props.children}</p>
 );
 
 const TocNav: Component<{
@@ -127,6 +125,7 @@ export const PrefaceChapter: Component = () => {
 
         <TocNav active={active()} onJump={jumpTo} variant="inline" />
 
+        <div data-reading-root>
         <section id="opening" class={styles.section} data-reveal>
           <h2 class={styles.srOnly}>开篇</h2>
           <Prose>
@@ -147,7 +146,7 @@ export const PrefaceChapter: Component = () => {
         </section>
 
         <section id="ecosystem" class={styles.section} data-reveal>
-          <h2 data-reading>LLM 生态更迭</h2>
+          <h2>LLM 生态更迭</h2>
           <Prose>
             从职业角度看，很多一线大厂都已经开始用 AI “降本增效”。我的前司，做模型平台的小组，所有的前端同学都已经转岗到了后端，也新增了如“Agent 架构开发”，“FDE”等新兴岗位。小厂变化同样明显，之前几周的工作，现在要压缩到一周去做，方案评审，Code Review 好像已经变成了“古法编程”时代遗留下来的工艺一环。我也曾震惊于新招来的实习生已经完全不会写代码，但也能通过和 Agent 反复沟通，一天完成之前几周的工作。
           </Prose>
@@ -172,7 +171,7 @@ export const PrefaceChapter: Component = () => {
         </section>
 
         <section id="project" class={styles.section} data-reveal>
-          <h2 data-reading>WaytoLLM 项目</h2>
+          <h2>WaytoLLM 项目</h2>
           <Prose>
             基于上言，整个大模型的发展可以说是日新月异，这个月正在爆火的概念下个月也许就会被推翻，新的观点和架构也在层出不穷。这就造成入门的同学很难从一个角度出发，快速了解整个行业全貌，因为也许这个角度就是错的🤣；另一方面，深入在某个领域的技术或业务同学，也需要不断的更新知识，来适应不断更迭的概念。
           </Prose>
@@ -182,7 +181,7 @@ export const PrefaceChapter: Component = () => {
         </section>
 
         <section id="audience" class={styles.section} data-reveal>
-          <h2 data-reading>适合人群</h2>
+          <h2>适合人群</h2>
           <Prose>
             本指南适合的人群很广，如果你是刚入门的 AI 技术小白或是业务同学，可以从一些基础章节开始平滑学习大模型。对比较公知的内容，章节会给出概览和总结，并挑选网络上优秀的项目和文章，方便进一步学习；而一些关键的内容，如 ReAct 等概念，则会深入讲解概念本身以及如何落地到框架场景。
           </Prose>
@@ -195,17 +194,16 @@ export const PrefaceChapter: Component = () => {
         </section>
 
         <section id="closing" class={styles.section} data-reveal>
-          <h2 data-reading>最后</h2>
+          <h2>最后</h2>
           <Prose>
             摊子铺的比较大，为了保持快速更新，文章会以类似 awesome projects（优秀的项目和文章合集） 加深度解析的形式串联。集百家之长，也方便读者扩展阅读，拓宽更多视角。
           </Prose>
           <Prose>
             同时作为开源项目，随时欢迎大家贡献有价值的项目和学习资料，一起开启大模型时代!
           </Prose>
-          <p class={styles.signed} data-reading>
-            写于 26 年 9 月。
-          </p>
+          <p class={styles.signed}>写于 26 年 9 月。</p>
         </section>
+        </div>
       </div>
 
       <TocNav active={active()} onJump={jumpTo} variant="rail" />

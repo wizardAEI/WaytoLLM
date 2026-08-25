@@ -8,7 +8,7 @@ function essayReadingText(essay: Essay): string {
   return [
     "这是一些优秀的项目/文章：",
     ...essay.items.flatMap((entry) => [entry.title, entry.intro]),
-  ].join("");
+  ].join("\n");
 }
 
 export const EssayChapter: Component<{ essay: Essay }> = (props) => (
