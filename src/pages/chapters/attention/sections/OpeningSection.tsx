@@ -56,16 +56,17 @@ const ORIGIN_TIMELINE: TimelineItem[] = [
 ];
 
 const PANEL_META = [
-  { title: "从一篇论文到默认骨架", desc: "" },
-  { title: "不同媒介，如何进入同一个模型", desc: "" },
-  { title: "先把输入变成向量", desc: "" },
-  { title: "LayerNorm 与 Q / K / V", desc: "" },
-  { title: "多头注意力", desc: "" },
-  { title: "Attention 后的归一化", desc: "" },
-  { title: "MLP 与 MoE", desc: "" },
-  { title: "残差：给深层网络留一条路", desc: "" },
-  { title: "Hidden State 与 Layer", desc: "" },
-  { title: "LM Head、概率与采样", desc: "" },
+  { title: "从一篇论文到默认骨架", desc: "2017 年之后，注意力几乎成了序列模型的默认组织方式。" },
+  { title: "不同媒介，如何进入同一个模型", desc: "文字、图像、语音、影片，最后都要变成同一条 Token 序列。" },
+  { title: "先把输入变成向量", desc: "符号不能直接计算：先切分，再查表，再把顺序写进去。" },
+  { title: "LayerNorm 与 Q / K / V", desc: "归一化稳住尺度，三个投影把同一输入拆成检索的三种角色。" },
+  { title: "多头注意力", desc: "每个位置按相关性检索上下文；多头是把这件事并行做几遍。" },
+  { title: "Attention 后的归一化", desc: "先把子层结果加回去，再把数值尺度整理一遍。" },
+  { title: "MLP 与 MoE", desc: "注意力负责谁看谁，前馈网络负责改写每个位置自己。" },
+  { title: "残差：给深层网络留一条路", desc: "每一层只学增量，梯度才有一条不会断的捷径。" },
+  { title: "Hidden State 与 Layer", desc: "层数越深，同一段输入被重新编码的次数越多。" },
+  { title: "LM Head、概率与采样", desc: "最后一层的表示被投影到词表，采样决定下一个 Token。" },
+  { title: "继续读下去", desc: "" },
 ];
 
 const ATTN_TOKENS = ["我", "喜欢", "Transformer"] as const;
@@ -673,6 +674,48 @@ export const OpeningSection: Component = () => {
               <p>语言模型输出的 Token 也可以被其他解码器接收：图像模型把 Token 还原为视觉 Latent，语音模型把它们变成声学特征。</p>
               <p>在具身智能中，Token 可以代表动作、轨迹或策略片段，经过控制器和执行器转换成机器人的真实行为。</p>
             </ReadingDrawer>
+          </PanelFrame>
+
+          <PanelFrame index={10}>
+            <p class={styles.prose}>这是一些优秀的项目/文章：</p>
+            <ul class={styles.furtherList}>
+              <li>
+                <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer">
+                  <strong>Attention Is All You Need</strong>
+                  <span>Transformer 原论文。</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener noreferrer">
+                  <strong>The Illustrated Transformer</strong>
+                  <span>Jay Alammar 用图把注意力算一遍。</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/" target="_blank" rel="noopener noreferrer">
+                  <strong>The Transformer Family Version 2.0</strong>
+                  <span>后来那些变体收成一张家族树。</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.youtube.com/watch?v=kCc8FmEb1nY" target="_blank" rel="noopener noreferrer">
+                  <strong>Let's build GPT</strong>
+                  <span>Karpathy 从零写 GPT。</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://jaykmody.com/blog/gpt-from-scratch/" target="_blank" rel="noopener noreferrer">
+                  <strong>GPT in 60 Lines of NumPy</strong>
+                  <span>六十行 NumPy 把 GPT 跑起来。</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/Hannibal046/Awesome-LLM" target="_blank" rel="noopener noreferrer">
+                  <strong>Awesome-LLM</strong>
+                  <span>里程碑论文和教程索引。</span>
+                </a>
+              </li>
+            </ul>
           </PanelFrame>
       </div>
     </section>

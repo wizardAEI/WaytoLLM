@@ -138,6 +138,80 @@
   font-weight: 600;
 }
 
+.furtherList {
+  margin: 8px 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.furtherList li + li {
+  border-top: 1px solid var(--border);
+}
+
+.furtherList a {
+  display: grid;
+  gap: 4px;
+  position: relative;
+  padding: 14px 0 14px 14px;
+}
+
+.furtherList a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 2px;
+  background: var(--border);
+  transform: scaleX(0.5);
+  transform-origin: left center;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.furtherList a:hover::before,
+.furtherList a:focus-visible::before {
+  background: var(--blue);
+  transform: scaleX(1);
+}
+
+.furtherList a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.furtherList a:active {
+  transform: translateY(1px);
+}
+
+.furtherList strong {
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+}
+
+.furtherList a:hover strong,
+.furtherList a:focus-visible strong {
+  color: var(--blue);
+}
+
+.furtherList span {
+  color: var(--gray);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .furtherList a::before {
+    transition: none;
+  }
+
+  .furtherList a:active {
+    transform: none;
+  }
+}
+
 .figure {
   margin: 8px 0 28px;
   padding: 14px 14px 12px;

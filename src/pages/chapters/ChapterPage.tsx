@@ -71,15 +71,11 @@ export function ChapterPage(props: { chapter: ChapterMeta }) {
 
         <Dynamic component={props.chapter.Component} />
 
-        <Show when={props.chapter.id !== "preface"}>
-          <GiscusComments term={props.chapter.id} />
-        </Show>
-
         <Show when={adjacent().prev || adjacent().next}>
-          <div class={styles.chapterFooter}>
+          <nav class={styles.chapterFooter} aria-label="相邻章节">
             <Show when={adjacent().prev} fallback={<span />} keyed>
               {(prev) => (
-                <Link to={prev.path} class={styles.navBtn}>
+                <Link to={prev.path} class={styles.navLink}>
                   <svg class={`${styles.buttonIcon} ${styles.iconBack}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M19 12H5M11 18l-6-6 6-6" />
                   </svg>
@@ -89,7 +85,7 @@ export function ChapterPage(props: { chapter: ChapterMeta }) {
             </Show>
             <Show when={adjacent().next} keyed>
               {(next) => (
-                <Link to={next.path} class={styles.navBtnPrimary}>
+                <Link to={next.path} class={`${styles.navLink} ${styles.navLinkNext}`}>
                   {next.navLabel}
                   <svg class={`${styles.buttonIcon} ${styles.iconAdvance}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M5 12h14M13 6l6 6-6 6" />
@@ -97,8 +93,10 @@ export function ChapterPage(props: { chapter: ChapterMeta }) {
                 </Link>
               )}
             </Show>
-          </div>
+          </nav>
         </Show>
+
+        <GiscusComments term={props.chapter.id} />
       </div>
 
       <Show when={tocOpen()}>

@@ -1,7 +1,7 @@
 import type { Component } from "solid-js";
 import { SITE_NAME } from "./site";
 import { AttentionChapter } from "../pages/chapters/attention/AttentionChapter";
-import { BlankChapter } from "../pages/chapters/BlankChapter";
+import { boundEssay } from "../pages/chapters/essay/bound";
 import { PrefaceChapter } from "../pages/chapters/PrefaceChapter";
 
 export interface ChapterMeta {
@@ -42,7 +42,7 @@ function doc(
     pageTitle: `${navLabel} - ${SITE_NAME}`,
     cover: extra?.cover,
     coverAlt: extra?.coverAlt,
-    Component: extra?.Component ?? BlankChapter,
+    Component: extra?.Component ?? boundEssay(id),
   };
 }
 
@@ -90,8 +90,12 @@ export const COURSE_SECTIONS: CourseSection[] = [
   },
   {
     id: "app-frameworks",
-    title: "现在大模型应用框架",
-    chapters: [],
+    title: "现代大模型应用框架",
+    chapters: [
+      doc("rag-context", "RAG 与上下文工程"),
+      doc("agent-frameworks", "Agent 与 ReAct"),
+      doc("tools-mcp", "工具调用、MCP 与 Skills"),
+    ],
   },
   {
     id: "evaluation",

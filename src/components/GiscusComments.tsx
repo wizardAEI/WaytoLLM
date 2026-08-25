@@ -29,10 +29,6 @@ export function GiscusComments(props: { term: string }) {
 
   return (
     <section class={styles.comments} aria-label="评论">
-      <div class={styles.heading}>
-        <span class={styles.kicker}>DISCUSSION</span>
-        <h2>留下你的想法</h2>
-      </div>
       <Show
         when={isGiscusConfigured}
         fallback={

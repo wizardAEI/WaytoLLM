@@ -125,24 +125,24 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: auto;
-  padding-top: 48px;
+  margin-top: 48px;
 }
 
-.navBtn,
-.navBtnPrimary {
+.navLink {
   display: inline-flex;
   align-items: center;
   gap: var(--btn-gap);
-  font-family: inherit;
+  padding: 4px 0;
+  color: var(--blue);
   font-size: 15px;
   font-weight: 600;
   line-height: 1.4;
-  padding: var(--btn-padding-y) var(--btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--btn-radius);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: color-mix(in srgb, var(--blue) 36%, transparent);
   cursor: pointer;
-  transition: var(--btn-transition);
+  transition: color 0.15s, text-decoration-color 0.15s, transform 0.15s;
 }
 
 .buttonIcon {
@@ -151,46 +151,29 @@
   transition: transform 0.15s;
 }
 
-.navBtn:focus-visible,
-.navBtnPrimary:focus-visible {
+.navLink:focus-visible {
   outline: 2px solid var(--blue);
   outline-offset: 3px;
 }
 
-.navBtn {
-  color: var(--navy);
-  background: var(--bg);
-  border-color: var(--border);
+.navLink:hover {
+  color: var(--blue-dark);
+  text-decoration-color: var(--blue-dark);
 }
 
-.navBtn:hover {
-  background: var(--bg-sub);
-  border-color: var(--blue);
-  color: var(--blue);
-}
-
-.navBtn:hover .iconBack {
+.navLink:hover .iconBack {
   transform: var(--btn-shift-back);
 }
 
-.navBtnPrimary {
-  color: #fff;
-  background: var(--blue);
-  border-color: var(--blue);
+.navLinkNext {
   margin-left: auto;
 }
 
-.navBtnPrimary:hover {
-  background: var(--blue-dark);
-  border-color: var(--blue-dark);
-}
-
-.navBtnPrimary:hover .iconAdvance {
+.navLink:hover .iconAdvance {
   transform: var(--btn-shift-fwd);
 }
 
-.navBtn:active,
-.navBtnPrimary:active {
+.navLink:active {
   transform: translateY(1px);
 }
 
@@ -205,16 +188,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .navBtn,
-  .navBtnPrimary,
+  .navLink,
   .buttonIcon {
     transition: none;
   }
 
-  .navBtn:hover .iconBack,
-  .navBtnPrimary:hover .iconAdvance,
-  .navBtn:active,
-  .navBtnPrimary:active {
+  .navLink:hover .iconBack,
+  .navLink:hover .iconAdvance,
+  .navLink:active {
     transform: none;
   }
 
@@ -256,7 +237,7 @@
     flex-wrap: wrap;
   }
 
-  .navBtnPrimary {
+  .navLinkNext {
     margin-left: 0;
   }
 }
