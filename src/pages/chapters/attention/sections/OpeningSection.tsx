@@ -66,7 +66,7 @@ const PANEL_META = [
   { title: "残差：给深层网络留一条路", desc: "每一层只学增量，梯度才有一条不会断的捷径。" },
   { title: "Hidden State 与 Layer", desc: "层数越深，同一段输入被重新编码的次数越多。" },
   { title: "LM Head、概率与采样", desc: "最后一层的表示被投影到词表，采样决定下一个 Token。" },
-  { title: "继续读下去", desc: "" },
+  { title: "扩展阅读", desc: "" },
 ];
 
 const ATTN_TOKENS = ["我", "喜欢", "Transformer"] as const;
