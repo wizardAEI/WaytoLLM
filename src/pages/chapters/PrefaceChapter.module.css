@@ -1,10 +1,10 @@
 .preface {
-  width: min(100%, 920px);
+  width: min(100%, 680px);
   margin: 48px auto 0;
 }
 
 .intro {
-  max-width: 680px;
+  margin-bottom: 8px;
 }
 
 .eyebrow {
@@ -17,21 +17,61 @@
 }
 
 .intro h1 {
-  margin-bottom: 20px;
-  font-size: clamp(32px, 5vw, 56px);
+  margin-bottom: 8px;
+  font-size: clamp(36px, 5vw, 52px);
+  letter-spacing: -0.03em;
 }
 
-.lead {
+.section {
+  padding: 36px 0 8px;
+}
+
+.section + .section {
+  border-top: 1px solid var(--border);
+  padding-top: 44px;
+}
+
+.section h2 {
+  max-width: 18em;
+  margin: 0 0 22px;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 30px);
+  line-height: 1.28;
+  letter-spacing: -0.03em;
+  color: var(--navy);
+  text-wrap: balance;
+}
+
+.prose {
+  max-width: 42em;
+  margin: 0 0 1.15em;
+  font-size: 16.5px;
+  line-height: 1.9;
   color: var(--gray-dark);
-  font-size: 18px;
-  line-height: 1.8;
+}
+
+.prose:last-child {
+  margin-bottom: 0;
+}
+
+.prose strong {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.signed {
+  margin: 28px 0 0;
+  color: var(--gray);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
 }
 
 .videoCard {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin: 32px 0 0;
+  margin: 8px 0 28px;
   padding: 12px;
   color: var(--navy);
   background: var(--bg-sub);
@@ -106,13 +146,21 @@
     margin-top: 32px;
   }
 
-  .lead {
+  .section {
+    padding: 28px 0 4px;
+  }
+
+  .section + .section {
+    padding-top: 32px;
+  }
+
+  .prose {
     font-size: 16px;
   }
 
   .videoCard {
     gap: 14px;
-    margin-top: 24px;
+    margin: 4px 0 22px;
     padding: 10px;
   }
 
