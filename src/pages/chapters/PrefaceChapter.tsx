@@ -2,6 +2,8 @@ import type { Component } from "solid-js";
 import styles from "./PrefaceChapter.module.css";
 
 const VIDEO_BVID = "BV1EA8B6SEQq";
+const VIDEO_TITLE = "2023到现在大模型究竟进步了多少？我找回了GPT3.5！";
+const VIDEO_COVER = "https://i0.hdslb.com/bfs/archive/e96148d566586ca46ec73e3f0ed7c770f0834bbe.jpg";
 const VIDEO_URL = `https://www.bilibili.com/video/${VIDEO_BVID}/`;
 
 export const PrefaceChapter: Component = () => (
@@ -21,13 +23,9 @@ export const PrefaceChapter: Component = () => (
       rel="noreferrer"
       data-reveal
     >
-      <span class={styles.videoCardIcon} aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M8 5.5v13l10-6.5z" fill="currentColor" stroke="none" />
-        </svg>
-      </span>
+      <img class={styles.videoCardCover} src={VIDEO_COVER} alt="" loading="lazy" />
       <span class={styles.videoCardBody}>
-        <span class={styles.videoCardSource}>哔哩哔哩</span>
+        <span class={styles.videoCardTitle}>{VIDEO_TITLE}</span>
         <span class={styles.videoCardUrl}>bilibili.com/video/{VIDEO_BVID}</span>
       </span>
       <svg class={styles.videoCardArrow} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

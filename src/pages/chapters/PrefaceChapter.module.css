@@ -30,9 +30,9 @@
 .videoCard {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin: 56px 0 0;
-  padding: 24px 28px;
+  gap: 16px;
+  margin: 32px 0 0;
+  padding: 12px;
   color: var(--navy);
   background: var(--bg-sub);
   border: 1px solid var(--border);
@@ -51,20 +51,13 @@
   outline-offset: 3px;
 }
 
-.videoCardIcon {
-  display: grid;
-  flex: 0 0 44px;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  color: var(--white);
-  background: var(--blue);
+.videoCardCover {
+  display: block;
+  flex: 0 0 156px;
+  width: 156px;
+  height: 88px;
+  object-fit: cover;
   border-radius: 6px;
-}
-
-.videoCardIcon svg {
-  width: 22px;
-  height: 22px;
 }
 
 .videoCardBody {
@@ -75,10 +68,15 @@
   gap: 4px;
 }
 
-.videoCardSource {
+.videoCardTitle {
+  display: -webkit-box;
+  overflow: hidden;
   color: var(--navy);
   font-size: 16px;
   font-weight: 700;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .videoCardUrl {
@@ -113,12 +111,15 @@
   }
 
   .videoCard {
-    margin-top: 40px;
-    padding: 20px;
+    gap: 14px;
+    margin-top: 24px;
+    padding: 10px;
   }
 
-  .videoCard {
-    gap: 14px;
+  .videoCardCover {
+    flex-basis: 120px;
+    width: 120px;
+    height: 68px;
   }
 }
 
