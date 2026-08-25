@@ -5,7 +5,7 @@ export function RootLayout() {
   return (
     <>
       <a
-        href="https://github.com"
+        href="https://github.com/wizardAEI/WaytoLLM"
         class={styles.githubIcon}
         aria-label="在 GitHub 上查看"
         title="在 GitHub 上查看"

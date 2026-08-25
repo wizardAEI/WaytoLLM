@@ -4,6 +4,7 @@ import { Link } from "@tanstack/solid-router";
 import styles from "./ChapterPage.module.css";
 import { getAdjacentChapters, type ChapterMeta } from "../../config/chapters";
 import { ChapterExplorer } from "../../components/ChapterExplorer";
+import { GiscusComments } from "../../components/GiscusComments";
 
 export function ChapterPage(props: { chapter: ChapterMeta }) {
   let rootEl: HTMLDivElement | undefined;
@@ -69,6 +70,8 @@ export function ChapterPage(props: { chapter: ChapterMeta }) {
         </div>
 
         <Dynamic component={props.chapter.Component} />
+
+        <GiscusComments term={props.chapter.id} />
 
         <Show when={adjacent().prev || adjacent().next}>
           <div class={styles.chapterFooter}>

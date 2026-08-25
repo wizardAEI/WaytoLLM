@@ -2,6 +2,7 @@ import type { Component } from "solid-js";
 import { SITE_NAME } from "./site";
 import { AttentionChapter } from "../pages/chapters/attention/AttentionChapter";
 import { BlankChapter } from "../pages/chapters/BlankChapter";
+import { PrefaceChapter } from "../pages/chapters/PrefaceChapter";
 
 export interface ChapterMeta {
   id: string;
@@ -25,7 +26,7 @@ export interface CourseSection {
   chapters: ChapterMeta[];
 }
 
-const ATTENTION_COVER = "/covers/attention-history-cover.png";
+const ATTENTION_COVER = "/covers/attention-history-cover.webp";
 const ATTENTION_COVER_ALT = "点刻的手递出一封漆印信件";
 
 function doc(
@@ -52,6 +53,7 @@ export const COURSE_SECTIONS: CourseSection[] = [
     chapter: doc("preface", "前言", {
       cover: ATTENTION_COVER,
       coverAlt: ATTENTION_COVER_ALT,
+      Component: PrefaceChapter,
     }),
     chapters: [],
   },

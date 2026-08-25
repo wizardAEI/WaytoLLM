@@ -45,7 +45,7 @@ export function HomePage() {
             </div>
           </div>
           <div class={styles.heroBanner}>
-            <img src="/banner.png" alt="Banner" />
+            <img src="/banner.webp" alt="Banner" />
           </div>
         </div>
       </div>

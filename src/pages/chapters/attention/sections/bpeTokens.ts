@@ -1,5 +1,5 @@
 // "ATTENTION IS ALL YOU NEED" 在 GPT-5.x / O1/O3 分词器下的真实拆分结果(6 个 Token)
-// 参考:public/tokenizer-example.png(OpenAI Tokenizer 工具截图)
+// 参考:public/tokenizer-example.webp(OpenAI Tokenizer 工具截图)
 
 export interface BpeToken {
   text: string;

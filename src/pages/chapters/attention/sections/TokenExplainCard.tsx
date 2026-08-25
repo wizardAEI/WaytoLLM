@@ -114,7 +114,7 @@ export const TokenExplainCard: Component<TokenExplainCardProps> = (props) => {
 
         <figure class={styles.figure}>
           <img
-            src="/tokenizer-example.png"
+            src="/tokenizer-example.webp"
             alt="OpenAI Tokenizer 工具对 “ATTENTION IS ALL YOU NEED” 的分词结果"
             class={styles.screenshot}
             loading="lazy"
