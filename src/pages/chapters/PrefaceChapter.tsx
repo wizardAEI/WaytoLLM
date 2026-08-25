@@ -1,11 +1,6 @@
 import type { Component, JSX } from "solid-js";
 import styles from "./PrefaceChapter.module.css";
 
-const VIDEO_BVID = "BV1EA8B6SEQq";
-const VIDEO_TITLE = "2023到现在大模型究竟进步了多少？我找回了GPT3.5！";
-const VIDEO_COVER = "https://i0.hdslb.com/bfs/archive/e96148d566586ca46ec73e3f0ed7c770f0834bbe.jpg";
-const VIDEO_URL = `https://www.bilibili.com/video/${VIDEO_BVID}/`;
-
 const Prose: Component<{ children: JSX.Element }> = (props) => (
   <p class={styles.prose}>{props.children}</p>
 );
@@ -21,23 +16,6 @@ export const PrefaceChapter: Component = () => (
       <Prose>
         最近看了一个 B 站视频，讲从游戏的视角，讲这四年 AI 进步了多少。
       </Prose>
-
-      <a
-        class={styles.videoCard}
-        href={VIDEO_URL}
-        target="_blank"
-        rel="noreferrer"
-      >
-        <img class={styles.videoCardCover} src={VIDEO_COVER} alt="" loading="lazy" />
-        <span class={styles.videoCardBody}>
-          <span class={styles.videoCardTitle}>{VIDEO_TITLE}</span>
-          <span class={styles.videoCardUrl}>bilibili.com/video/{VIDEO_BVID}</span>
-        </span>
-        <svg class={styles.videoCardArrow} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M7 17 17 7M8 7h9v9" />
-        </svg>
-      </a>
-
       <Prose>
         19 年的 GPT3.5，上下文只有可怜的几 K，换到现在的 Agent 上，应该连提示词都塞不进去。用它来生成的游戏只有一个抽象的草图界面；到 26 年的 GPT5.6，百万上下文，已经可以做出具备优秀阴影、音效和物理引擎的赛车游戏。大模型每一年的进步都是指数级别的，从模型本身，到周边的生态变化，都以月为单位，不断发生着变化。
       </Prose>
@@ -48,14 +26,14 @@ export const PrefaceChapter: Component = () => (
         而老套则是指大模型的基础逻辑仿佛亘古不变，自诞生起来，模型的基础逻辑就没有变过，遇到的问题也仍然是那些。我在前司三年前就在做的 RAG，Context 工程，现在换了两家公司，依然在做。
       </Prose>
       <Prose>
-        这中间自然有很多不小的差距和不断进步的架构设计，但上游<strong>模型幻觉</strong>、<strong>指令遵循</strong>的问题、下游需要<strong>本地知识库</strong>，<strong>私有化大模型</strong>的需求却一直没变。相信每一个在基础一线的同学，都做过一个类似“智能小智”的项目，只不过 23 年的智，是智能对话的智，26 年的智，则是智能体，智能办公的智。
+        这中间自然有很多不小的差距和不断进步的架构设计，但上游<strong>模型幻觉</strong>、<strong>指令遵循</strong>的问题、下游需要<strong>本地知识库</strong>，<strong>私有化大模型</strong>的需求却一直没变。相信每一个在基础一线的同学，都做过一个类似“智能小智”的项目，只不过 23 年的“智”，是智能对话，26 年的“智”，则是智能体，智能办公。
       </Prose>
     </section>
 
     <section class={styles.section} data-reveal>
       <h2>LLM 生态更迭</h2>
       <Prose>
-        从职业角度看，这两年的职业变化也很快。很多一线大厂都已经开始用 AI “降本增效”，我的前司，做模型平台的小组，所有的前端同学都已经转岗到了后端，也新增了如“Agent 架构开发”，“FDE”等新兴岗位。小厂变化同样明显，之前几周的工作，现在要压缩到一周去做，方案评审，Code Review 好像已经变成了“古法编程”时代遗留下来的工艺一环。我也曾震惊于新招来的实习生已经完全不会写代码，但也能通过和 Agent 反复沟通，一天完成之前几周的工作。
+        从职业角度看，这两年的职业变化很快。很多一线大厂都已经开始用 AI “降本增效”，我的前司，做模型平台的小组，所有的前端同学都已经转岗到了后端，也新增了如“Agent 架构开发”，“FDE”等新兴岗位。小厂变化同样明显，之前几周的工作，现在要压缩到一周去做，方案评审，Code Review 好像已经变成了“古法编程”时代遗留下来的工艺一环。我也曾震惊于新招来的实习生已经完全不会写代码，但也能通过和 Agent 反复沟通，一天完成之前几周的工作。
       </Prose>
       <Prose>
         到了甲方这边，变化也很明显。去年，我短暂的体验了一把 OPC，去和工业界、教育界和服务行业的甲方打交道。从 26 年初的小龙虾风潮刮遍全中国后，越来越多传统行业也开始尝试了解 AI。理由各不相同，有些想通过 AI 提效，或是增加新的增长曲线，有的则是单纯怕落后于其他竞对，错过新的机会。
@@ -80,10 +58,10 @@ export const PrefaceChapter: Component = () => (
     <section class={styles.section} data-reveal>
       <h2>WaytoLLM 项目</h2>
       <Prose>
-        基于上言，整个大模型的发展可以说是日新月异，这个月正在爆火的概念下个月也许就会被推翻，新的观点和架构也在层出不穷。这就造成入门的同学很难从一个角度出发，快速了解整个行业全貌，因为也许这个角度就是错的；另一方面，深入在某个领域的技术或业务同学，也需要不断的更新知识，来适应不断更迭的概念。
+        基于上言，整个大模型的发展可以说是日新月异，这个月正在爆火的概念下个月也许就会被推翻，新的观点和架构也在层出不穷。这就造成入门的同学很难从一个角度出发，快速了解整个行业全貌，因为也许这个角度就是错的🤣；另一方面，深入在某个领域的技术或业务同学，也需要不断的更新知识，来适应不断更迭的概念。
       </Prose>
       <Prose>
-        此项目正是想从整个生态中找到真正有价值和关键的路径，从而帮助大家串联起整个大模型生态。项目将从模型架构本身，到现有技术架构，项目落地和行业场景，由浅（作者不一定能入深，也希望大家一起共建补充）的讲解“大模型之路”。
+        此项目正是想从整个生态中找到真正有价值和关键的路径，从而帮助大家串联起整个大模型生态。项目将从模型架构本身，到现有技术架构，项目落地和行业场景，由浅（作者不一定能入深😂，也希望大家一起共建补充）的讲解“大模型之路”。
       </Prose>
     </section>
 
@@ -103,7 +81,10 @@ export const PrefaceChapter: Component = () => (
     <section class={styles.section} data-reveal>
       <h2>最后</h2>
       <Prose>
-        摊子铺的比较大，为了方便快速更新，文章会以 awesome-xxx（各类经验的项目和文章） 加深度解析的形式串联内容。集百家之长，也方便读者拓宽更多视角。同时作为开源项目，随时欢迎大家一起贡献有价值的项目和学习资料，一起开启大模型时代。
+        摊子铺的比较大，为了保持快速更新，文章会以类似 awesome projects（优秀的项目和文章合集） 加深度解析的形式串联。集百家之长，也方便读者扩展阅读，拓宽更多视角。
+      </Prose>
+      <Prose>
+        同时作为开源项目，随时欢迎大家一起贡献有价值的项目和学习资料，一起开启大模型时代。
       </Prose>
       <p class={styles.signed}>写于 26 年 9 月。</p>
     </section>

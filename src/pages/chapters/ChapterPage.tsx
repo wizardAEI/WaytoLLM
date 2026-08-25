@@ -71,7 +71,9 @@ export function ChapterPage(props: { chapter: ChapterMeta }) {
 
         <Dynamic component={props.chapter.Component} />
 
-        <GiscusComments term={props.chapter.id} />
+        <Show when={props.chapter.id !== "preface"}>
+          <GiscusComments term={props.chapter.id} />
+        </Show>
 
         <Show when={adjacent().prev || adjacent().next}>
           <div class={styles.chapterFooter}>
