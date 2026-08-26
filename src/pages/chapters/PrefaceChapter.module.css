@@ -67,7 +67,7 @@
 }
 
 .section {
-  padding: 36px 0 8px;
+  padding: 36px 0 10px;
   scroll-margin-top: 88px;
 }
 
@@ -328,7 +328,7 @@
   }
 
   .section {
-    padding: 28px 0 4px;
+    padding: 28px 0 6px;
     scroll-margin-top: 72px;
   }
 
