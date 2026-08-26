@@ -129,7 +129,7 @@ export const PrefaceChapter: Component = () => {
         <section id="opening" class={styles.section} data-reveal>
           <h2 class={styles.srOnly}>开篇</h2>
           <Prose>
-            最近看了一个 B 站视频，讲从游戏的视角，讲这四年 AI 进步了多少。
+            最近看了一个 B 站视频，讲从游戏的视角，这四年 AI 进步了多少。
           </Prose>
           <Prose>
             19 年的 GPT3.5，上下文只有可怜的几 K，换到现在的 Agent 上，应该连提示词都塞不进去。用它来生成的游戏只有一个抽象的草图界面；到 26 年的 GPT5.6，百万上下文，已经可以做出具备优秀阴影、音效和物理引擎的赛车游戏。大模型每一年的进步都是指数级别的，从模型本身，到周边的生态变化，都以月为单位，不断发生着变化。
