@@ -1,6 +1,6 @@
 const CHARS_PER_MINUTE = 400;
 
-/** GPT3.5、LangChain、Co-Work、minimax-m3 这类英文单词 / 专名各算 1 */
+/** GPT3.5、LangChain、Co-Work、minimax-h3 这类英文单词 / 专名各算 1 */
 const LATIN_TOKEN = /[A-Za-z][A-Za-z0-9]*(?:[.\-][A-Za-z0-9]+)*/g;
 
 export function countChars(text: string): number {
