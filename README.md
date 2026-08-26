@@ -1,7 +1,7 @@
 # 现代大模型指南
 
 <p align="center">
-  <img src="public/banner.webp" alt="WaytoLLM" width="100%" />
+  <img src="public/banner.webp" alt="WaytoLLM" width="720" />
 </p>
 
 WaytoLLM 是一个学习大模型各类基础知识、应用路线和落地教程的开源项目。以最新的大模型发展现状为基准，用简单但足够详细的内容，从基础入门逐步走到企业级落地，中间套件与周边生态也会持续整理。
