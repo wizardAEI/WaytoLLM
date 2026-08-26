@@ -67,7 +67,7 @@
 }
 
 .section {
-  padding: 36px 0 10px;
+  padding: 36px 0 var(--section-end-gap);
   scroll-margin-top: 88px;
 }
 
@@ -328,7 +328,7 @@
   }
 
   .section {
-    padding: 28px 0 6px;
+    padding: 28px 0 var(--section-end-gap);
     scroll-margin-top: 72px;
   }
 
