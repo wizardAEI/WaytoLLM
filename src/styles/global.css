@@ -36,6 +36,15 @@
   --anim-entry-stagger: 0.08s;
   --anim-drawer-duration: 0.48s;
   --anim-slide-duration: 0.72s;
+
+  /* Chapter section: gap between last text and the following rule */
+  --section-end-gap: 10px;
+}
+
+@media (max-width: 860px) {
+  :root {
+    --section-end-gap: 6px;
+  }
 }
 
 /* ─── Reset ──────────────────────────────────────────────────── */
