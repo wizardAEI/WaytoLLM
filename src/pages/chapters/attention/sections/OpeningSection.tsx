@@ -2,7 +2,6 @@ import { For, Show, createSignal, onCleanup, onMount, type Component, type JSX }
 import styles from "./OpeningSection.module.css";
 import preface from "../../PrefaceChapter.module.css";
 import { ArticleIntro } from "../../ArticleIntro";
-import { PrefaceFigure } from "../../PrefaceChapter";
 import { ReadingDrawer } from "./ReadingDrawer";
 import { BPE_TOKENS, getTokenTone } from "./bpeTokens";
 import { articlePlainText, formatReading } from "../../../../utils/reading";
@@ -53,7 +52,6 @@ const SCALE_ERAS = [
 ] as const;
 
 const PANEL_META = [
-  { id: "origin", title: "从一篇论文到默认骨架", desc: "从一篇翻译论文，到某个午后被塞进对话框的小版本。" },
   { id: "scale", title: "大模型为什么变得越来越大，越来越强？", desc: "预训练把损失压下去，后训练把能力用出来，Agentic RL 再让模型学会把事做完。" },
   { id: "media", title: "不同媒介，如何进入同一个模型", desc: "文字、图像、语音、影片，最后都要变成同一条 Token 序列。" },
   { id: "vectors", title: "先把输入变成向量", desc: "符号不能直接计算：先切分，再查表，再把顺序写进去。" },
@@ -318,92 +316,7 @@ export const OpeningSection: Component = () => {
         <TocNav active={active()} onJump={jumpTo} variant="inline" />
 
         <div class={styles.stack} data-reading-root>
-          <PanelFrame index={0} hideTitle>
-            <p class={styles.prose}>
-              2017 年，Vaswani 等人发表{" "}
-              <a
-                href="https://arxiv.org/abs/1706.03762"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Attention Is All You Need
-              </a>，主要用来改进和解决机器翻译任务。
-            </p>
-            <p class={styles.prose}>
-              一年后，OpenAI 的 Alec Radford 等人修改了架构，只留下 Decoder，用「预测下一个词」去训练语言模型。意外随之而来：模型并没有被教做过题、分类或摘要，可只要数据够多，这些能力就会涌现出来。
-            </p>
-            <p class={styles.prose}>
-              2020 年，GPT-3 发布，参数量来到 1750 亿。它能在提示词里看几个例子，就完成翻译、写作、答题，论文把这叫做 few-shot。可大多数人并不当回事。因为智力并不强，大家只当是一个「大号 Siri」。直到 22 年 11 月 30 日，OpenAI 更新了 GPT3.5，并上线了研究助手 ChatGPT。
-            </p>
-            <p class={styles.prose}>五天破百万用户，从此开启了大模型的序章。</p>
-
-            <aside class={styles.originCite}>
-              <span class={styles.originCiteMark} aria-hidden="true">“</span>
-              <p>
-                The dominant sequence transduction models are based on complex recurrent or
-                convolutional neural networks… We propose a new simple network architecture,
-                the Transformer, based solely on attention mechanisms.
-              </p>
-              <p class={styles.originCiteZh}>
-                当前主导的序列转换模型，都建立在复杂的循环或卷积神经网络之上……我们提出一种新的简单网络架构：Transformer，完全基于注意力机制。
-              </p>
-              <footer>
-                <span>Vaswani et al.</span>
-                <span aria-hidden="true">·</span>
-                <cite>NeurIPS 2017</cite>
-              </footer>
-            </aside>
-
-            <p class={styles.prose}>
-              如果你还不是很了解 Transformer 架构，这里有一个很好的{" "}
-              <a
-                href="https://poloclub.github.io/transformer-explainer/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Transformer 可视化网站
-              </a>
-              可以用来参考，网站里非常清晰的展示了文字是如何从 Token 开始，转换成 Q K V 三种注意力头，再通过层层神经网络、归一化，到最终预测下一个词。也推荐你去看一下{" "}
-              <a
-                href="https://www.bilibili.com/video/BV13z421U7cs/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                3Blue1Brown 官方视频
-              </a>
-              ，会对大模型有更直观的了解。
-            </p>
-            <PrefaceFigure
-              src="/attention/transformer-explainer.webp"
-              alt="Transformer Explainer：输入 Token 经过注意力与 MLP 后预测下一个词"
-              caption="Transformer Explainer：从 Token 到预测下一个词"
-              href="https://poloclub.github.io/transformer-explainer/"
-            />
-
-            <div class={styles.readerRow}>
-              <ReaderButton onClick={() => setDrawer("origin")}>
-                展开阅读：Transformer 为什么会成为默认架构
-              </ReaderButton>
-            </div>
-
-            <ReadingDrawer
-              open={drawer() === "origin"}
-              eyebrow="ORIGIN STORY"
-              title="Transformer 为什么会成为默认架构"
-              onClose={() => setDrawer(null)}
-            >
-              <p>
-                在 2017 年之前，机器翻译与序列建模几乎都被 <strong>RNN / LSTM / GRU</strong> 主导。
-                它们擅长处理有序信息，却把计算绑在时间步上：第 t 步必须等第 t−1 步完成，训练难以充分利用现代加速器。
-              </p>
-              <p>
-                Transformer 的关键转折，是把「依赖关系」从隐状态传递改写成 <strong>Query / Key / Value</strong> 的检索过程。
-                每个位置都能并行地查看整段上下文，远距离依赖不再需要跨越很多个时间步。
-              </p>
-            </ReadingDrawer>
-          </PanelFrame>
-
-          <PanelFrame index={1}>
+          <PanelFrame index={0}>
             <p class={styles.prose}>
               ChatGPT 把大模型推到台前之后，行业的第一反应很朴素：继续做大。不是因为参数本身好看，而是 2020 年 Kaplan 等人写下一条经验关系——交叉熵损失会随参数量、数据量和训练算力，近似按幂律下降。三个旋钮一起拧，曲线就会往下走。在那几年里，「更强」几乎就等于「更大」。
             </p>
@@ -525,7 +438,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={2}>
+          <PanelFrame index={1}>
             <p class={styles.prose}>
               文字、图像、语音、影片看起来完全不同，进入模型之前却要做同一件事：被切成一段离散的 Token 序列。注意力层并不关心这些 Token 来自像素还是字符，它只处理序列中每个位置与其他位置的关系。
             </p>
@@ -577,7 +490,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={3}>
+          <PanelFrame index={2}>
             <p class={styles.prose}>
               神经网络不能直接吃文字。Tokenizer 先把文本切成词表里的编号，Embedding 再把编号查成可学习的向量。这一步之后，每个 Token 都变成高维空间里的一个点，模型才能开始做加减和投影。
             </p>
@@ -618,7 +531,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={4}>
+          <PanelFrame index={3}>
             <p class={styles.prose}>
               注意力发生之前，表示会先被 LayerNorm（或 RMSNorm）整理一遍。归一化把不同位置、不同层的数值拉回稳定尺度，训练才不容易被个别极大值带跑。
             </p>
@@ -641,7 +554,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={5}>
+          <PanelFrame index={4}>
             <p class={styles.prose}>
               自注意力的计算可以看成一次检索：用当前位置的 Query 去和所有位置的 Key 比较，得到一组权重，再按权重把 Value 加权求和。每个位置都能直接看到整段上下文，这就是 Transformer 不再依赖逐步传递隐状态的原因。
             </p>
@@ -663,7 +576,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={6}>
+          <PanelFrame index={5}>
             <p class={styles.prose}>
               注意力的输出不会覆盖原来的表示。子层结果先与输入相加，再做一次归一化。残差保留刚刚进来的信息，归一化则把数值尺度重新整理，让后面的层能继续稳定计算。
             </p>
@@ -694,7 +607,7 @@ export const OpeningSection: Component = () => {
             </Figure>
           </PanelFrame>
 
-          <PanelFrame index={7}>
+          <PanelFrame index={6}>
             <p class={styles.prose}>
               注意力解决的是「谁该看谁」。真正改写每个位置内部表示的，是后面的前馈网络。标准做法是一个两层 MLP：先把维度升上去，经过非线性，再压回来。它对每个 Token 独立计算，不看邻居——邻居之间的交流已经由注意力完成。
             </p>
@@ -743,7 +656,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={8}>
+          <PanelFrame index={7}>
             <p class={styles.prose}>
               把一层展开来看，残差出现了两次：注意力之后一次，前馈网络之后再一次。公式都是 y = x + F(x)。每一层学习的是增量，而不是把完整表示从头造一遍。
             </p>
@@ -775,7 +688,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={9}>
+          <PanelFrame index={8}>
             <p class={styles.prose}>
               一层做完一轮「交流 + 加工」。堆得越深，表示被改写的次数越多。Hidden State 就是这个过程中每一层的中间快照：它还不是最终答案，但已经编码了截至当前层的上下文。
             </p>
@@ -805,7 +718,7 @@ export const OpeningSection: Component = () => {
             </Figure>
           </PanelFrame>
 
-          <PanelFrame index={10}>
+          <PanelFrame index={9}>
             <p class={styles.prose}>
               最后一个 Hidden State 经过 LM Head——通常是一次线性投影——变成词表上每个候选的 logits。Softmax 把它们转成概率，采样策略再决定下一个 Token：可以取最大概率，也可以用 temperature、top-k、top-p 保留一点随机性。
             </p>
@@ -835,7 +748,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={11}>
+          <PanelFrame index={10}>
             <p class={styles.prose}>这是一些优秀的项目/文章：</p>
             <ul class={styles.furtherList}>
               <li>
