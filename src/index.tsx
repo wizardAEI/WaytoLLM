@@ -7,7 +7,8 @@ import { initExternalLinks } from "./utils/externalLinks";
 import "./styles/global.css";
 
 initTheme();
-initExternalLinks();
+const patchExternalLinks = initExternalLinks();
+router.subscribe("onResolved", patchExternalLinks);
 
 const queryClient = new QueryClient();
 
