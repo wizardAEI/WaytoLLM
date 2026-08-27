@@ -2,6 +2,7 @@ import { For, Show, createSignal, onCleanup, onMount, type Component, type JSX }
 import styles from "./PrefaceChapter.module.css";
 import { ArticleIntro } from "./ArticleIntro";
 import { articlePlainText, formatReading } from "../../utils/reading";
+import { externalLinkAttrs } from "../../utils/externalLinks";
 
 const TOC = [
   { id: "opening", title: "开篇" },
@@ -94,12 +95,7 @@ export const PrefaceFigure: Component<{
     <figure class={styles.figure} data-reveal>
       <Show when={props.href} fallback={image()} keyed>
         {(href) => (
-          <a
-            class={styles.figureLink}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class={styles.figureLink} href={href} {...externalLinkAttrs(href)}>
             {image()}
             <span
               class={styles.figureHint}

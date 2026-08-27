@@ -2,6 +2,7 @@ import { For, type Component } from "solid-js";
 import styles from "../PrefaceChapter.module.css";
 import { ArticleIntro } from "../ArticleIntro";
 import { formatReading } from "../../../utils/reading";
+import { externalLinkAttrs } from "../../../utils/externalLinks";
 import type { Essay } from "./types";
 
 function essayReadingText(essay: Essay): string {
@@ -24,12 +25,7 @@ export const EssayChapter: Component<{ essay: Essay }> = (props) => (
         <For each={props.essay.items}>
           {(entry) => (
             <li>
-              <a
-                class={styles.readingItem}
-                href={entry.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a class={styles.readingItem} href={entry.href} {...externalLinkAttrs(entry.href)}>
                 <span class={styles.readingKind}>{entry.kind}</span>
                 <span class={styles.readingTitle}>{entry.title}</span>
                 <span class={styles.readingIntro}>{entry.intro}</span>
