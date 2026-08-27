@@ -57,7 +57,7 @@ const PANEL_META = [
   { id: "scale", title: "大模型为什么变得越来越大，越来越强？", desc: "预训练把损失压下去，后训练把能力用出来，Agentic RL 再让模型学会把事做完。" },
   { id: "media", title: "不同媒介，如何进入同一个模型", desc: "文字、图像、语音、影片，最后都要变成同一条 Token 序列。" },
   { id: "vectors", title: "先把输入变成向量", desc: "符号不能直接计算：先切分，再查表，再把顺序写进去。" },
-  { id: "qkv", title: "LayerNorm 与 Q / K / V", desc: "归一化稳住尺度，三个投影把同一输入拆成检索的三种角色。" },
+  { id: "qkv", title: "LayerNorm 与 Q K V", desc: "归一化稳住尺度，三个投影把同一输入拆成检索的三种角色。" },
   { id: "mha", title: "多头注意力", desc: "每个位置按相关性检索上下文；多头是把这件事并行做几遍。" },
   { id: "post-norm", title: "Attention 后的归一化", desc: "先把子层结果加回去，再把数值尺度整理一遍。" },
   { id: "mlp", title: "MLP 与 MoE", desc: "注意力负责谁看谁，前馈网络负责改写每个位置自己。" },
