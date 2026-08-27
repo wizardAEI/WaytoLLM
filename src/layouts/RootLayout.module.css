@@ -1,8 +1,14 @@
-.githubIcon {
+.chrome {
   position: fixed;
   top: 24px;
   right: 24px;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.githubIcon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -10,7 +16,7 @@
   height: 32px;
   color: var(--navy);
   opacity: 0.6;
-  transition: opacity 0.15s, transform 0.15s;
+  transition: opacity 0.15s, transform 0.15s, color 0.22s;
 }
 
 .githubIcon:hover {
@@ -19,9 +25,13 @@
 }
 
 @media (max-width: 860px) {
-  .githubIcon {
+  .chrome {
     top: 16px;
     right: 16px;
+    gap: 2px;
+  }
+
+  .githubIcon {
     width: 28px;
     height: 28px;
   }

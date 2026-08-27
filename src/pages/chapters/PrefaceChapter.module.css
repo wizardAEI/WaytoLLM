@@ -104,6 +104,95 @@
   font-weight: 600;
 }
 
+.figure {
+  margin: 28px 0 32px;
+}
+
+.figureLink {
+  display: block;
+  position: relative;
+  color: inherit;
+  transition: transform 0.15s;
+}
+
+.figureLink .figureImage {
+  transition: border-color 0.15s, opacity 0.15s;
+}
+
+.figureLink:hover .figureImage,
+.figureLink:focus-visible .figureImage {
+  border-color: color-mix(in srgb, var(--blue) 48%, var(--border));
+}
+
+.figureLink:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.figureLink:active {
+  transform: translateY(1px);
+}
+
+.figureHint {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: calc(100% - 16px);
+  color: var(--navy);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  opacity: 0;
+  transform: translate3d(0, 5px, 0);
+  pointer-events: none;
+  transition:
+    opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.figureHintUrl {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.figureHintIcon {
+  flex: 0 0 auto;
+  display: block;
+  opacity: 0.68;
+}
+
+.figureLink:hover .figureHint,
+.figureLink:focus-visible .figureHint {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.figureImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+}
+
+.figure figcaption {
+  margin-top: 9px;
+  color: var(--gray);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
 .inlineLink {
   color: var(--blue);
   text-decoration: underline;
@@ -353,12 +442,21 @@
   .tocLink,
   .tocLink::before,
   .inlineLink,
+  .figureLink,
+  .figureLink .figureImage,
+  .figureHint,
   .readingItem,
   .readingItem::before {
     transition: none;
   }
 
+  .figureLink:hover .figureHint,
+  .figureLink:focus-visible .figureHint {
+    transform: none;
+  }
+
   .tocLink:active,
+  .figureLink:active,
   .readingItem:active {
     transform: none;
   }

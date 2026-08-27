@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 28px;
-  background: rgba(242, 248, 250, 0.62);
+  background: var(--overlay);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   animation: fadeIn 0.28s ease-out;
@@ -20,7 +20,7 @@
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 16px;
-  box-shadow: 0 28px 72px rgba(15, 23, 42, 0.16);
+  box-shadow: var(--elev-shadow);
   padding: 28px 32px 32px;
   overflow: hidden;
   animation: panelIn 0.38s cubic-bezier(0.16, 0.84, 0.44, 1);

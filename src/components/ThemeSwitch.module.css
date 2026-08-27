@@ -1,0 +1,53 @@
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--gray);
+  cursor: pointer;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.option:hover {
+  color: var(--navy);
+}
+
+.optionActive {
+  color: var(--navy);
+}
+
+.option:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.option:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 860px) {
+  .option {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option {
+    transition: none;
+  }
+
+  .option:active {
+    transform: none;
+  }
+}

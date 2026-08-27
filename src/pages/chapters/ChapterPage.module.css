@@ -21,6 +21,7 @@
   margin: 0;
   overflow: hidden;
   isolation: isolate;
+  background: var(--white);
 }
 
 .banner img {
@@ -36,9 +37,14 @@
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, transparent 20%),
-    linear-gradient(180deg, transparent 58%, var(--white) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--page-rgb), 0.16) 0%,
+    rgba(var(--page-rgb), 0) 12%,
+    rgba(var(--page-rgb), 0) 88%,
+    rgba(var(--page-rgb), 0.2) 94%,
+    rgb(var(--page-rgb)) 100%
+  );
   pointer-events: none;
 }
 
