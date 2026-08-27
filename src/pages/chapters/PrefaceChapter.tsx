@@ -28,12 +28,56 @@ function formatUrlHint(href: string) {
   }
 }
 
-const PrefaceFigure: Component<{
+function sampleBottomLeftLuminance(img: HTMLImageElement): number | null {
+  const nw = img.naturalWidth;
+  const nh = img.naturalHeight;
+  if (!nw || !nh) return null;
+
+  const sampleW = 48;
+  const sampleH = 12;
+  const canvas = document.createElement("canvas");
+  canvas.width = sampleW;
+  canvas.height = sampleH;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return null;
+
+  const sx = nw * 0.012;
+  const sw = nw * 0.32;
+  const sh = Math.max(nh * 0.028, 8);
+  const sy = nh - nh * 0.012 - sh;
+
+  try {
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sampleW, sampleH);
+    const { data } = ctx.getImageData(0, 0, sampleW, sampleH);
+    let sum = 0;
+    const count = sampleW * sampleH;
+    for (let i = 0; i < data.length; i += 4) {
+      sum += 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+    }
+    return sum / count / 255;
+  } catch {
+    return null;
+  }
+}
+
+export const PrefaceFigure: Component<{
   src: string;
   alt: string;
   caption: string;
   href?: string;
 }> = (props) => {
+  const [onDark, setOnDark] = createSignal(false);
+
+  const onImageReady = (img: HTMLImageElement) => {
+    const lum = sampleBottomLeftLuminance(img);
+    if (lum == null) return;
+    setOnDark(lum < 0.45);
+  };
+
+  const bindImage = (el: HTMLImageElement) => {
+    if (el.complete && el.naturalWidth > 0) onImageReady(el);
+  };
+
   const image = () => (
     <img
       class={styles.figureImage}
@@ -41,6 +85,8 @@ const PrefaceFigure: Component<{
       alt={props.alt}
       loading="lazy"
       decoding="async"
+      ref={bindImage}
+      onLoad={(event) => onImageReady(event.currentTarget)}
     />
   );
 
@@ -55,7 +101,11 @@ const PrefaceFigure: Component<{
             rel="noopener noreferrer"
           >
             {image()}
-            <span class={styles.figureHint} aria-hidden="true">
+            <span
+              class={styles.figureHint}
+              classList={{ [styles.figureHintOnDark]: onDark() }}
+              aria-hidden="true"
+            >
               <span class={styles.figureHintUrl}>{formatUrlHint(href)}</span>
               <svg
                 class={styles.figureHintIcon}

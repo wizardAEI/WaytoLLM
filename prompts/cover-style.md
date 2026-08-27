@@ -48,3 +48,20 @@ Most of the frame is empty cream paper. An irregular torn vermillion stain / pri
 
 No text, no numbers, no year. No neural network, no nodes, no graph, no connected dots.
 ```
+
+---
+
+## Content Prompt · Transformer 的核心：注意力机制
+
+文件：`public/covers/attention-cover.png`  
+比例：16:9
+
+```
+Sparse 16:9 editorial cover. One gesture only: looking.
+
+A single close-up of a clean classical contour human eye and the surrounding orbital fragment, cropped large in the left-center, gazing toward the middle of the frame. Sparse elegant outlines only — almost no shading, no iris glow, no stipple, no heavy hatching, no dirty skin texture. No full face, no second eye, no body, no hands, no other people.
+
+In the center, a small white letterpress type-block or folded card sits in the path of the gaze. An irregular torn vermillion stain / printed blot sits on that card like light catching the selected token — crooked, incomplete, not a straight bar, not a perfect rectangle. The eye and surrounding skin stay untouched on the left, with a royal-blue square behind the eye and a small black rectangle at upper left. Sparse thin black construction lines, one small halftone field, faint blue scribbles, paper grain. Most of the right side is empty cream paper.
+
+No connecting web of lines from the eye to multiple objects. No second token. No text, no numbers, no year. No neural network, no nodes, no graph, no connected dots, no all-seeing-eye occult symbolism.
+```

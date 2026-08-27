@@ -63,8 +63,8 @@ export const COURSE_SECTIONS: CourseSection[] = [
     chapters: [
       doc("attention-is-all-you-need", "Transformer 的核心：注意力机制", {
         path: "/attention-is-all-you-need",
-        cover: ATTENTION_COVER,
-        coverAlt: ATTENTION_COVER_ALT,
+        cover: "/covers/attention-cover.webp",
+        coverAlt: "线描的眼睛注视一块朱红印渍的活字卡片",
         Component: AttentionChapter,
       }),
     ],

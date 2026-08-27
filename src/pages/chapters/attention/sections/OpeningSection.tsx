@@ -1,7 +1,11 @@
 import { For, Show, createSignal, onCleanup, onMount, type Component, type JSX } from "solid-js";
 import styles from "./OpeningSection.module.css";
+import preface from "../../PrefaceChapter.module.css";
+import { ArticleIntro } from "../../ArticleIntro";
+import { PrefaceFigure } from "../../PrefaceChapter";
 import { ReadingDrawer } from "./ReadingDrawer";
 import { BPE_TOKENS, getTokenTone } from "./bpeTokens";
+import { articlePlainText, formatReading } from "../../../../utils/reading";
 
 const TITLE = "Transformer 的核心：注意力机制";
 
@@ -21,53 +25,49 @@ const MEDIA_ITEMS: MediaItem[] = [
   { id: "video", label: "VIDEO / 影片", title: "时间维度也需要建模", summary: "在空间 Patch 之外，继续编码帧与帧之间的变化。" },
 ];
 
-interface TimelineItem {
-  year: string;
-  title: string;
-  body: string;
-  tag?: string;
-}
-
-const ORIGIN_TIMELINE: TimelineItem[] = [
+const SCALE_ERAS = [
   {
-    year: "2017",
-    title: "Attention Is All You Need",
-    body: "Vaswani 等人用自注意力彻底替代循环与卷积，让序列中任意位置都能直接建立依赖。",
-    tag: "论文",
+    id: "01",
+    tag: "PRETRAIN",
+    title: "Scaling Law",
+    body: "损失随参数、数据、算力近似按幂律下降。三个旋钮必须一起拧，缺一块，另外两块就会浪费。",
+    models: "GPT-3 · PaLM · Gopher / Chinchilla · Llama · GPT-4",
+    wall: "高质量文本见底，集群和电力成为真瓶颈。",
   },
   {
-    year: "2018",
-    title: "BERT · GPT",
-    body: "Encoder / Decoder 被拆成不同预训练路线：双向理解与自回归生成开始分道扬镳。",
-    tag: "变体",
+    id: "02",
+    tag: "POST-TRAINING",
+    title: "后训练",
+    body: "SFT、RLHF、DPO 把续写模型教成助手；o1 与 R1 再用可验证奖励，把「做对」练进权重。",
+    models: "InstructGPT · ChatGPT · Llama 2 Chat · o1 · DeepSeek-R1",
+    wall: "偏好数据贵且吵，奖励会被钻空子，开放题仍然难自动打分。",
   },
   {
-    year: "2020",
-    title: "规模化预训练",
-    body: "更大参数、更多数据与指令微调让「通用语言模型」从研究原型走向可部署系统。",
-    tag: "扩展",
+    id: "03",
+    tag: "AGENTIC RL",
+    title: "Agentic RL",
+    body: "环境换成终端、仓库和浏览器。模型要规划、调用工具、读反馈，把一件事做完。",
+    models: "o3 · Claude computer use · Kimi · Qwen3.8",
+    wall: "奖励稀疏、长程归因难，一次 rollout 很贵，安全边界从说话变成做事。",
   },
-  {
-    year: "今天",
-    title: "LLM 成为通用接口",
-    body: "文本、代码、图像与更多媒介被统一进可学习的表示空间，Transformer 成为默认骨架。",
-    tag: "现状",
-  },
-];
+] as const;
 
 const PANEL_META = [
-  { title: "从一篇论文到默认骨架", desc: "2017 年之后，注意力几乎成了序列模型的默认组织方式。" },
-  { title: "不同媒介，如何进入同一个模型", desc: "文字、图像、语音、影片，最后都要变成同一条 Token 序列。" },
-  { title: "先把输入变成向量", desc: "符号不能直接计算：先切分，再查表，再把顺序写进去。" },
-  { title: "LayerNorm 与 Q / K / V", desc: "归一化稳住尺度，三个投影把同一输入拆成检索的三种角色。" },
-  { title: "多头注意力", desc: "每个位置按相关性检索上下文；多头是把这件事并行做几遍。" },
-  { title: "Attention 后的归一化", desc: "先把子层结果加回去，再把数值尺度整理一遍。" },
-  { title: "MLP 与 MoE", desc: "注意力负责谁看谁，前馈网络负责改写每个位置自己。" },
-  { title: "残差：给深层网络留一条路", desc: "每一层只学增量，梯度才有一条不会断的捷径。" },
-  { title: "Hidden State 与 Layer", desc: "层数越深，同一段输入被重新编码的次数越多。" },
-  { title: "LM Head、概率与采样", desc: "最后一层的表示被投影到词表，采样决定下一个 Token。" },
-  { title: "扩展阅读", desc: "" },
-];
+  { id: "origin", title: "从一篇论文到默认骨架", desc: "从一篇翻译论文，到某个午后被塞进对话框的小版本。" },
+  { id: "scale", title: "大模型为什么变得越来越大，越来越强？", desc: "预训练把损失压下去，后训练把能力用出来，Agentic RL 再让模型学会把事做完。" },
+  { id: "media", title: "不同媒介，如何进入同一个模型", desc: "文字、图像、语音、影片，最后都要变成同一条 Token 序列。" },
+  { id: "vectors", title: "先把输入变成向量", desc: "符号不能直接计算：先切分，再查表，再把顺序写进去。" },
+  { id: "qkv", title: "LayerNorm 与 Q / K / V", desc: "归一化稳住尺度，三个投影把同一输入拆成检索的三种角色。" },
+  { id: "mha", title: "多头注意力", desc: "每个位置按相关性检索上下文；多头是把这件事并行做几遍。" },
+  { id: "post-norm", title: "Attention 后的归一化", desc: "先把子层结果加回去，再把数值尺度整理一遍。" },
+  { id: "mlp", title: "MLP 与 MoE", desc: "注意力负责谁看谁，前馈网络负责改写每个位置自己。" },
+  { id: "residual", title: "残差：给深层网络留一条路", desc: "每一层只学增量，梯度才有一条不会断的捷径。" },
+  { id: "layers", title: "Hidden State 与 Layer", desc: "层数越深，同一段输入被重新编码的次数越多。" },
+  { id: "lm-head", title: "LM Head、概率与采样", desc: "最后一层的表示被投影到词表，采样决定下一个 Token。" },
+  { id: "reading", title: "扩展阅读", desc: "" },
+] as const;
+
+type TocId = (typeof PANEL_META)[number]["id"];
 
 const ATTN_TOKENS = ["我", "喜欢", "Transformer"] as const;
 const ATTN_X = [70, 210, 350];
@@ -185,19 +185,53 @@ const PanelHeader: Component<{ title: string; desc: string }> = (props) => (
   </header>
 );
 
-const PanelFrame: Component<{ index: number; children: JSX.Element }> = (props) => {
-  const meta = PANEL_META[props.index];
+const PanelFrame: Component<{ index: number; hideTitle?: boolean; children: JSX.Element }> = (props) => {
+  const meta = PANEL_META[props.index]!;
   return (
-    <article class={styles.panel} data-panel={props.index}>
+    <section id={meta.id} class={styles.panel} data-reveal>
       <div class={styles.panelInner}>
-        <PanelHeader title={meta.title} desc={meta.desc} />
-        <div class={styles.panelContent}>
-          {props.children}
-        </div>
+        <Show
+          when={!props.hideTitle}
+          fallback={<h2 class={styles.srOnly}>{meta.title}</h2>}
+        >
+          <PanelHeader title={meta.title} desc={meta.desc} />
+        </Show>
+        <div class={styles.panelContent}>{props.children}</div>
       </div>
-    </article>
+    </section>
   );
 };
+
+const TocNav: Component<{
+  active: TocId;
+  onJump: (id: TocId) => void;
+  variant: "rail" | "inline";
+}> = (props) => (
+  <nav class={props.variant === "rail" ? preface.tocRail : preface.tocInline} aria-label="文章目录">
+    <p class={preface.tocKicker}>目录</p>
+    <ol class={preface.tocList}>
+      <For each={PANEL_META}>
+        {(item, index) => (
+          <li>
+            <a
+              href={`#${item.id}`}
+              class={preface.tocLink}
+              classList={{ [preface.tocLinkActive]: props.active === item.id }}
+              aria-current={props.active === item.id ? "location" : undefined}
+              onClick={(event) => {
+                event.preventDefault();
+                props.onJump(item.id);
+              }}
+            >
+              <span class={preface.tocIndex}>{String(index() + 1).padStart(2, "0")}</span>
+              <span class={preface.tocTitle}>{item.title}</span>
+            </a>
+          </li>
+        )}
+      </For>
+    </ol>
+  </nav>
+);
 
 const ReaderButton: Component<{ onClick: () => void; children: JSX.Element }> = (props) => (
   <button type="button" class={styles.readerButton} onClick={props.onClick}>
@@ -209,58 +243,99 @@ const ReaderButton: Component<{ onClick: () => void; children: JSX.Element }> = 
 export const OpeningSection: Component = () => {
   const [drawer, setDrawer] = createSignal<string | null>(null);
   const [mlpMode, setMlpMode] = createSignal<"mlp" | "moe">("mlp");
+  const [active, setActive] = createSignal<TocId>(PANEL_META[0].id);
+  const [readingMeta, setReadingMeta] = createSignal("");
+  let lockUntil = 0;
+  let bodyEl: HTMLDivElement | undefined;
 
-  let stackEl: HTMLDivElement | undefined;
-  let observer: IntersectionObserver | undefined;
+  const bindBody = (el: HTMLDivElement) => {
+    bodyEl = el;
+    setReadingMeta(formatReading(articlePlainText(el)));
+  };
+
+  const prefersReducedMotion = () =>
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+  const jumpTo = (id: TocId) => {
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    lockUntil = Date.now() + 700;
+    setActive(id);
+    target.scrollIntoView({
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+      block: "start",
+    });
+    history.replaceState(null, "", `#${id}`);
+  };
 
   onMount(() => {
-    if (!stackEl) return;
+    if (bodyEl) setReadingMeta(formatReading(articlePlainText(bodyEl)));
 
-    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
-    const panels = Array.from(stackEl.querySelectorAll<HTMLElement>("[data-panel]"));
-
-    if (reduceMotion) {
-      panels.forEach((el) => el.classList.add(styles.seen));
-      return;
+    const hash = window.location.hash.replace("#", "") as TocId;
+    if (PANEL_META.some((item) => item.id === hash)) {
+      setActive(hash);
+      requestAnimationFrame(() => jumpTo(hash));
     }
 
-    observer = new IntersectionObserver(
+    const visible = new Map<string, number>();
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add(styles.seen);
-          observer?.unobserve(entry.target);
+          visible.set(entry.target.id, entry.intersectionRatio);
         });
+        if (Date.now() < lockUntil) return;
+
+        let next: TocId = PANEL_META[0].id;
+        let best = 0;
+        PANEL_META.forEach((item) => {
+          const ratio = visible.get(item.id) ?? 0;
+          if (ratio > best) {
+            best = ratio;
+            next = item.id;
+          }
+        });
+        if (best > 0) setActive(next);
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      {
+        threshold: [0, 0.12, 0.28, 0.5, 0.72, 1],
+        rootMargin: "-18% 0px -62% 0px",
+      }
     );
 
-    panels.forEach((el, index) => {
-      if (index === 0) {
-        el.classList.add(styles.seen);
-        return;
-      }
-      observer!.observe(el);
+    PANEL_META.forEach((item) => {
+      const el = document.getElementById(item.id);
+      if (el) observer.observe(el);
     });
 
-    onCleanup(() => observer?.disconnect());
+    onCleanup(() => observer.disconnect());
   });
 
   return (
-    <section class={styles.stage}>
-      <h1 class={styles.srOnly}>{TITLE}</h1>
+    <article class={preface.preface}>
+      <div ref={bindBody} class={preface.body}>
+        <ArticleIntro title={TITLE} meta={readingMeta()} />
+        <TocNav active={active()} onJump={jumpTo} variant="inline" />
 
-      <div ref={stackEl} class={styles.stack}>
-          <PanelFrame index={0}>
+        <div class={styles.stack} data-reading-root>
+          <PanelFrame index={0} hideTitle>
             <p class={styles.prose}>
-              2017 年，Vaswani 等人发表 <em>Attention Is All You Need</em>。这篇论文没有发明注意力，但它做了一件更彻底的事：把循环和卷积从序列模型里拿掉，只留下注意力。
+              2017 年，Vaswani 等人发表{" "}
+              <a
+                href="https://arxiv.org/abs/1706.03762"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Attention Is All You Need
+              </a>，主要用来改进和解决机器翻译任务。
             </p>
             <p class={styles.prose}>
-              在那之前，机器翻译几乎都被 RNN / LSTM 主导。它们擅长处理有序信息，却把计算绑在时间步上：第 t 步必须等第 t−1 步完成，长程依赖还要沿着隐状态一层层传过去。Transformer 把「谁该看谁」改写成可学习的检索，每个位置都能并行查看整段上下文。
+              一年后，OpenAI 的 Alec Radford 等人拿起这套架构。只留下 Decoder，用「预测下一个词」去训练语言模型。意外随之而来：模型并没有被教做过题、分类或摘要，可只要数据够多，这些能力就会涌现出来。
             </p>
             <p class={styles.prose}>
-              此后不到十年，同一套骨架覆盖了理解、生成、代码、多模态和工具调用。今天几乎所有主流大模型，都可以看成 Transformer 的变体。它留下来的，不只是一块网络结构，而是一种组织计算的方式：先让 Token 互相看见，再让每个位置独立加工。
+              2020 年，GPT-3 发布，参数量来到 1750 亿。它能在提示词里看几个例子，就完成翻译、写作、答题，论文把这叫做 few-shot。可大多数人并不当回事。因为智力并不强，大家只当是一个「大号 Siri」。直到 22 年 11 月 30 日，OpenAI 更新了 GPT3.5，并上线了研究助手 ChatGPT。
             </p>
+            <p class={styles.prose}>五天破百万用户，从此开启了大模型的序章。</p>
 
             <aside class={styles.originCite}>
               <span class={styles.originCiteMark} aria-hidden="true">“</span>
@@ -269,6 +344,9 @@ export const OpeningSection: Component = () => {
                 convolutional neural networks… We propose a new simple network architecture,
                 the Transformer, based solely on attention mechanisms.
               </p>
+              <p class={styles.originCiteZh}>
+                当前主导的序列转换模型，都建立在复杂的循环或卷积神经网络之上……我们提出一种新的简单网络架构：Transformer，完全基于注意力机制。
+              </p>
               <footer>
                 <span>Vaswani et al.</span>
                 <span aria-hidden="true">·</span>
@@ -276,62 +354,35 @@ export const OpeningSection: Component = () => {
               </footer>
             </aside>
 
-            <Figure caption={<><b>从论文到默认骨架。</b> Encoder / Decoder 后来被拆成不同预训练路线，规模化让同一套结构走进可部署系统。</>}>
-              <ol class={styles.timeline}>
-                <For each={ORIGIN_TIMELINE}>
-                  {(item) => (
-                    <li>
-                      <div class={styles.timelineNode} aria-hidden="true" />
-                      <div class={styles.timelineMeta}>
-                        <span class={styles.timelineYear}>{item.year}</span>
-                        <Show when={item.tag}>
-                          <span class={styles.timelineTag}>{item.tag}</span>
-                        </Show>
-                      </div>
-                      <strong>{item.title}</strong>
-                      <p>{item.body}</p>
-                    </li>
-                  )}
-                </For>
-              </ol>
-            </Figure>
-
             <p class={styles.prose}>
-              Transformer 能成为默认选择，主要有三件事同时成立：训练时可以并行处理整段序列，更适合 GPU；任意两个位置都能直接交互，远距离语义不必层层传递；残差、归一化与注意力模块可以稳定地加深加宽，能力随规模持续涌现。
+              如果你还不是很了解 Transformer 架构，这里有一个很好的{" "}
+              <a
+                href="https://poloclub.github.io/transformer-explainer/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Transformer 可视化网站
+              </a>
+              可以用来参考，网站里非常清晰的展示了文字是如何从 Token 开始，转换成 Q K V 三种注意力头，再通过层层神经网络、归一化，到最终预测下一个词。也推荐你去看一下{" "}
+              <a
+                href="https://www.bilibili.com/video/BV13z421U7cs/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                3Blue1Brown 官方视频
+              </a>
+              ，会对大模型有更直观的了解。
             </p>
-
-            <Figure caption={<><b>计算方式的转折。</b> 注意力把依赖关系从「沿时间传递」改写成「按相关性检索」。</>}>
-              <div class={styles.compareBoard}>
-                <div class={styles.compareCol}>
-                  <span class={styles.compareLabel}>Before</span>
-                  <strong>RNN / Seq2Seq</strong>
-                  <ul>
-                    <li>逐步展开，难以并行</li>
-                    <li>远距离依赖容易衰减</li>
-                    <li>长序列训练不稳定</li>
-                  </ul>
-                </div>
-                <div class={styles.compareDivider} aria-hidden="true">
-                  <svg viewBox="0 0 28 28" fill="none">
-                    <circle cx="14" cy="14" r="13" />
-                    <path d="M11 8.5 17.5 14 11 19.5" />
-                  </svg>
-                </div>
-                <div class={styles.compareCol} classList={{ [styles.compareColAccent]: true }}>
-                  <span class={styles.compareLabel}>After</span>
-                  <strong>Transformer</strong>
-                  <ul>
-                    <li>整段序列可并行计算</li>
-                    <li>任意位置直接交互</li>
-                    <li>更容易堆叠与扩展</li>
-                  </ul>
-                </div>
-              </div>
-            </Figure>
+            <PrefaceFigure
+              src="/attention/transformer-explainer.webp"
+              alt="Transformer Explainer：输入 Token 经过注意力与 MLP 后预测下一个词"
+              caption="Transformer Explainer：从 Token 到预测下一个词"
+              href="https://poloclub.github.io/transformer-explainer/"
+            />
 
             <div class={styles.readerRow}>
               <ReaderButton onClick={() => setDrawer("origin")}>
-                展开阅读：从机器翻译到通用大模型
+                展开阅读：Transformer 为什么会成为默认架构
               </ReaderButton>
             </div>
 
@@ -349,24 +400,132 @@ export const OpeningSection: Component = () => {
                 Transformer 的关键转折，是把「依赖关系」从隐状态传递改写成 <strong>Query / Key / Value</strong> 的检索过程。
                 每个位置都能并行地查看整段上下文，远距离依赖不再需要跨越很多个时间步。
               </p>
-              <p>
-                随后的路线分化也很清晰：<strong>BERT</strong> 走双向 Encoder，擅长理解；
-                <strong>GPT</strong> 走自回归 Decoder，擅长生成。当规模、数据与对齐技术叠加后，
-                同一套骨架逐渐覆盖对话、代码、多模态与工具调用。
-              </p>
-              <div class={styles.miniDiagram}>
-                <span>RNN 瓶颈</span>
-                <Pipe />
-                <span>Self-Attention</span>
-                <Pipe />
-                <span>预训练</span>
-                <Pipe />
-                <span>通用 LLM</span>
-              </div>
             </ReadingDrawer>
           </PanelFrame>
 
           <PanelFrame index={1}>
+            <p class={styles.prose}>
+              ChatGPT 把大模型推到台前之后，行业的第一反应很朴素：继续做大。不是因为参数本身好看，而是 2020 年 Kaplan 等人写下一条经验关系——交叉熵损失会随参数量、数据量和训练算力，近似按幂律下降。三个旋钮一起拧，曲线就会往下走。在那几年里，「更强」几乎就等于「更大」。
+            </p>
+
+            <aside class={styles.originCite}>
+              <span class={styles.originCiteMark} aria-hidden="true">“</span>
+              <p>
+                The loss scales as a power-law with model size, dataset size, and the amount of
+                compute used for training, with some trends spanning more than seven orders of
+                magnitude.
+              </p>
+              <p class={styles.originCiteZh}>
+                损失随模型规模、数据集规模和训练算力按幂律下降，其中一些趋势跨越了七个数量级以上。
+              </p>
+              <footer>
+                <span>Kaplan et al.</span>
+                <span aria-hidden="true">·</span>
+                <cite>
+                  <a href="https://arxiv.org/abs/2001.08361" target="_blank" rel="noopener noreferrer">
+                    arXiv 2020
+                  </a>
+                </cite>
+              </footer>
+            </aside>
+
+            <p class={styles.prose}>
+              可「大」很快被拆成好几段。预训练把世界知识压进权重；后训练把一个会续写网页的模型，教成能听人话的助手；再往后，奖励不再只来自人类偏好，而来自环境——做对一道题、修过一个仓库、在终端里把任务跑完。后一段被叫做 <strong>Agentic RL</strong>。底座仍在涨，但最近一次明显变强，往往不是又堆了一层 Transformer。
+            </p>
+
+            <Figure caption={<><b>三次变强，三堵墙。</b> 每一段都有自己的代表模型和自己的瓶颈。</>}>
+              <div class={styles.formulaStack}>
+                <div class={styles.formulaCard}>
+                  <span>Scaling Law</span>
+                  <strong>L(N, D, C) ∝ N<sup>−α</sup>　D<sup>−β</sup>　C<sup>−γ</sup></strong>
+                  <small>N 参数 · D 数据 · C 训练算力。指数来自经验拟合，不是定理。</small>
+                </div>
+              </div>
+              <ol class={styles.eraTrack}>
+                <For each={SCALE_ERAS}>
+                  {(era) => (
+                    <li class={styles.eraRow}>
+                      <div>
+                        <span class={styles.eraIndex}>{era.id} / {era.tag}</span>
+                        <span class={styles.eraTitle}>{era.title}</span>
+                      </div>
+                      <div class={styles.eraBody}>
+                        <p>{era.body}</p>
+                        <p class={styles.eraMeta}>
+                          <span><b>MODELS</b>{era.models}</span>
+                          <span><b>WALL</b>{era.wall}</span>
+                        </p>
+                      </div>
+                    </li>
+                  )}
+                </For>
+              </ol>
+            </Figure>
+
+            <p class={styles.prose}>
+              Scaling Law 最先被写进预训练。Kaplan 的结论很硬：算力还够用时，把模型做大，比抠架构形状更划算。两年后 Hoffmann 等人用{" "}
+              <a href="https://arxiv.org/abs/2203.15556" target="_blank" rel="noopener noreferrer">
+                Chinchilla
+              </a>{" "}
+              纠正了分配——同等算力下，数据被喂得太少了。Gopher 的 2800 亿参数，被 700 亿、但训得更充分的 Chinchilla 反超。行业这才明白：参数、token、FLOPs 必须一起涨。
+            </p>
+            <p class={styles.prose}>
+              这一阶段的典型模型很好认。GPT-3 把 few-shot 变成一种能力；PaLM、Gopher 继续把密集模型推向千亿；Llama 用更少的参数、更多的 token，把开源路线走通；GPT-4 则把预训练规模推到当时公开讨论的尽头。挑战同时到来。高质量文本开始见底，集群和电力变成真瓶颈，注意力相对序列长度近似平方，预训练一次贵到几乎做不起对照实验。曲线还在下降，斜率已经没有 2020 年那么好看。
+            </p>
+
+            <p class={styles.prose}>
+              预训练给出的是一个「会说下一句」的底座。它并不自动知道什么该答、什么不该答。2022 年的 InstructGPT 把监督微调（SFT）和基于人类反馈的强化学习（RLHF）接在预训练后面，GPT-3 才变成可以对话的助手；同年年底的 ChatGPT，是这件事被产品化的时刻。后来 DPO 把奖励模型和 PPO 换成一对偏好数据上的直接优化，后训练从实验室配方，变成各家标配。
+            </p>
+            <p class={styles.prose}>
+              再往后，后训练的目标从「像人」改成「做对」。OpenAI 的 o1、DeepSeek 的 R1 证明：给模型更多思考时间，再在数学、代码这种能自动判对错的任务上做强化学习，能力会再跳一截。典型模型从 InstructGPT、ChatGPT、Llama 2 Chat、Claude，走到 o1 与 R1。挑战换成另一套：偏好数据贵且互相打架，奖励函数会被钻空子，对齐会吃掉一部分通用能力。能自动打分的任务好练，开放式任务仍然难。
+            </p>
+
+            <p class={styles.prose}>
+              Agentic RL 把考场换成了现场。模型不再只在草稿纸上推理，而要规划、调用工具、读环境反馈、改计划，把一件事做完。奖励来自终端是否退出成功、补丁是否通过测试、浏览器里的目标是否达成。o3、带 computer use 的 Claude、以及把长程 agent 写进模型卡的 Qwen3.8，都站在这条线上。
+            </p>
+            <p class={styles.prose}>
+              这一阶段的墙更高。奖励稀疏，错在第 3 步、要到第 30 步才看出来；环境本身贵，一次 rollout 可能是一次真实的代码执行；模型一旦被允许动手，安全边界也从「说错话」变成「做错事」。所以今天说一个模型更强，往往要同时问三件事：底座有多大、后训练把什么对齐进去了、它有没有在真实任务里被强化学习过。
+            </p>
+
+            <div class={styles.readerRow}>
+              <ReaderButton onClick={() => setDrawer("scale")}>扩展阅读：大模型下的个例</ReaderButton>
+            </div>
+            <ReadingDrawer
+              open={drawer() === "scale"}
+              eyebrow="SMALL MODELS"
+              title="大模型下的个例"
+              onClose={() => setDrawer(null)}
+            >
+              <p>
+                在参数竞赛里，也有一些模型故意不往「更大」走，却把能力密度做得很高。它们不是否定 Scaling Law，而是把同一套逻辑用在更紧的预算上：数据更干净、训练更充分、后训练更狠，再让小骨架去逼近大模型的行为。
+              </p>
+              <div class={styles.scaleCase}>
+                <span class={styles.sectionTag}>QWEN 27B</span>
+                <p>
+                  Qwen 的 27B 是最近最清楚的一条对照：
+                  <a href="https://huggingface.co/Qwen/Qwen3.6-27B" target="_blank" rel="noopener noreferrer">Qwen3.6-27B</a>
+                  {" "}与{" "}
+                  <a href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener noreferrer">Qwen3.8-27B</a>
+                  {" "}共用同一套骨架：64 层、5120 隐层、混合 Gated DeltaNet 与全注意力，原生约 256K 上下文。架构图纸几乎没动。3.8 变强的地方在后训练——在 agent 环境里做长程强化学习，再从更大的 Qwen3.8-Max 做蒸馏；原先文件里闲置的多 token 预测头也被真正激活，用来加速推理。独立评测里，这个 27B 从 3.6 到 3.8 的智能指数跳了十余分；Terminal Bench、SWE-bench、OSWorld 这类长程任务跳得更明显。它提醒了一件事：同一套 270 亿参数，被不同的后训练配方对待，可以差出一个世代。
+                </p>
+              </div>
+              <div class={styles.scaleCase}>
+                <span class={styles.sectionTag}>MINICPM 小钢炮</span>
+                <p>
+                  面壁智能的 MiniCPM 走的是另一条更小的路，也因此得名「小钢炮」。2024 年的{" "}
+                  <a href="https://arxiv.org/abs/2404.06395" target="_blank" rel="noopener noreferrer">2.4B / 1.2B</a>
+                  ，公开榜单上能跟当时的 Llama 2 7B 甚至 13B 打；后来的{" "}
+                  <a href="https://arxiv.org/abs/2506.07900" target="_blank" rel="noopener noreferrer">MiniCPM4</a>
+                  {" "}把稀疏注意力和高质量数据清洗用到端侧，MiniCPM-V 4.6 只用 1.3B 就把多模态门槛降到大约 6G 内存。方法并不神秘：用小模型做风洞实验搜超参，WSD 学习率让数据量不必提前锁死，数据/参数比刻意高于 Chinchilla 最优，再用蒸馏把大模型的行为压进小权重。它证明的不是「小可以替代大」，而是在端侧、消费级显卡和隐私约束下，能力密度本身就是一种规模。
+                </p>
+              </div>
+              <p>
+                两条个例指向同一个结论。追求更大参数仍然有效，但它不是唯一旋钮。有人把 27B 后训练到能做长程 agent，有人把 1B–2B 训到能在手机上跑多模态。规模还在涨，只是「规模」已经不只等于参数量。
+              </p>
+            </ReadingDrawer>
+          </PanelFrame>
+
+          <PanelFrame index={2}>
             <p class={styles.prose}>
               文字、图像、语音、影片看起来完全不同，进入模型之前却要做同一件事：被切成一段离散的 Token 序列。注意力层并不关心这些 Token 来自像素还是字符，它只处理序列中每个位置与其他位置的关系。
             </p>
@@ -418,7 +577,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={2}>
+          <PanelFrame index={3}>
             <p class={styles.prose}>
               神经网络不能直接吃文字。Tokenizer 先把文本切成词表里的编号，Embedding 再把编号查成可学习的向量。这一步之后，每个 Token 都变成高维空间里的一个点，模型才能开始做加减和投影。
             </p>
@@ -459,7 +618,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={3}>
+          <PanelFrame index={4}>
             <p class={styles.prose}>
               注意力发生之前，表示会先被 LayerNorm（或 RMSNorm）整理一遍。归一化把不同位置、不同层的数值拉回稳定尺度，训练才不容易被个别极大值带跑。
             </p>
@@ -482,7 +641,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={4}>
+          <PanelFrame index={5}>
             <p class={styles.prose}>
               自注意力的计算可以看成一次检索：用当前位置的 Query 去和所有位置的 Key 比较，得到一组权重，再按权重把 Value 加权求和。每个位置都能直接看到整段上下文，这就是 Transformer 不再依赖逐步传递隐状态的原因。
             </p>
@@ -504,7 +663,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={5}>
+          <PanelFrame index={6}>
             <p class={styles.prose}>
               注意力的输出不会覆盖原来的表示。子层结果先与输入相加，再做一次归一化。残差保留刚刚进来的信息，归一化则把数值尺度重新整理，让后面的层能继续稳定计算。
             </p>
@@ -535,7 +694,7 @@ export const OpeningSection: Component = () => {
             </Figure>
           </PanelFrame>
 
-          <PanelFrame index={6}>
+          <PanelFrame index={7}>
             <p class={styles.prose}>
               注意力解决的是「谁该看谁」。真正改写每个位置内部表示的，是后面的前馈网络。标准做法是一个两层 MLP：先把维度升上去，经过非线性，再压回来。它对每个 Token 独立计算，不看邻居——邻居之间的交流已经由注意力完成。
             </p>
@@ -584,7 +743,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={7}>
+          <PanelFrame index={8}>
             <p class={styles.prose}>
               把一层展开来看，残差出现了两次：注意力之后一次，前馈网络之后再一次。公式都是 y = x + F(x)。每一层学习的是增量，而不是把完整表示从头造一遍。
             </p>
@@ -616,7 +775,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={8}>
+          <PanelFrame index={9}>
             <p class={styles.prose}>
               一层做完一轮「交流 + 加工」。堆得越深，表示被改写的次数越多。Hidden State 就是这个过程中每一层的中间快照：它还不是最终答案，但已经编码了截至当前层的上下文。
             </p>
@@ -646,7 +805,7 @@ export const OpeningSection: Component = () => {
             </Figure>
           </PanelFrame>
 
-          <PanelFrame index={9}>
+          <PanelFrame index={10}>
             <p class={styles.prose}>
               最后一个 Hidden State 经过 LM Head——通常是一次线性投影——变成词表上每个候选的 logits。Softmax 把它们转成概率，采样策略再决定下一个 Token：可以取最大概率，也可以用 temperature、top-k、top-p 保留一点随机性。
             </p>
@@ -676,7 +835,7 @@ export const OpeningSection: Component = () => {
             </ReadingDrawer>
           </PanelFrame>
 
-          <PanelFrame index={10}>
+          <PanelFrame index={11}>
             <p class={styles.prose}>这是一些优秀的项目/文章：</p>
             <ul class={styles.furtherList}>
               <li>
@@ -717,7 +876,10 @@ export const OpeningSection: Component = () => {
               </li>
             </ul>
           </PanelFrame>
+        </div>
       </div>
-    </section>
+
+      <TocNav active={active()} onJump={jumpTo} variant="rail" />
+    </article>
   );
 };

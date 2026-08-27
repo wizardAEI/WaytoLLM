@@ -16,7 +16,7 @@
 }
 
 .drawerOpen {
-  max-height: 2000px;
+  max-height: 3600px;
   margin-top: 20px;
   padding-bottom: 4px;
   opacity: 1;
@@ -76,8 +76,8 @@
   max-height: none;
   overflow: visible;
   padding: 4px 20px 20px;
-  font-size: 15px;
-  line-height: 1.85;
+  font-size: 16.5px;
+  line-height: 1.9;
   color: var(--gray-dark);
 }
 
@@ -87,6 +87,25 @@
 
 .drawerBody p:last-child {
   margin-bottom: 0;
+}
+
+.drawerBody a {
+  color: var(--blue);
+  font-style: italic;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--blue) 42%, transparent);
+}
+
+.drawerBody a:hover {
+  color: var(--blue-dark);
+  text-decoration-color: var(--blue-dark);
+}
+
+.drawerBody a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
 }
 
 .drawerBody strong {
@@ -103,7 +122,7 @@
 
 @media (max-width: 860px) {
   .drawerOpen {
-    max-height: 2000px;
+    max-height: 3600px;
   }
 }
 
