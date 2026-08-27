@@ -533,6 +533,17 @@ export const OpeningSection: Component = () => {
 
           <PanelFrame index={3}>
             <p class={styles.prose}>
+              如果你还不是很了解 Transformer 架构，这里有一个很好的{" "}
+              <a
+                href="https://poloclub.github.io/transformer-explainer/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Transformer 可视化网站
+              </a>
+              可以用来参考，网站里非常清晰地展示了文字是如何从 Token 开始，转换成注意力头的 Q K V 向量，再通过层层神经网络、归一化，到最终预测下一个词。
+            </p>
+            <p class={styles.prose}>
               注意力发生之前，表示会先被 LayerNorm（或 RMSNorm）整理一遍。归一化把不同位置、不同层的数值拉回稳定尺度，训练才不容易被个别极大值带跑。
             </p>
             <p class={styles.prose}>
