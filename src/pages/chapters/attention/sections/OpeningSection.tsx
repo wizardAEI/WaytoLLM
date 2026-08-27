@@ -330,7 +330,7 @@ export const OpeningSection: Component = () => {
               </a>，主要用来改进和解决机器翻译任务。
             </p>
             <p class={styles.prose}>
-              一年后，OpenAI 的 Alec Radford 等人拿起这套架构。只留下 Decoder，用「预测下一个词」去训练语言模型。意外随之而来：模型并没有被教做过题、分类或摘要，可只要数据够多，这些能力就会涌现出来。
+              一年后，OpenAI 的 Alec Radford 等人修改了架构，只留下 Decoder，用「预测下一个词」去训练语言模型。意外随之而来：模型并没有被教做过题、分类或摘要，可只要数据够多，这些能力就会涌现出来。
             </p>
             <p class={styles.prose}>
               2020 年，GPT-3 发布，参数量来到 1750 亿。它能在提示词里看几个例子，就完成翻译、写作、答题，论文把这叫做 few-shot。可大多数人并不当回事。因为智力并不强，大家只当是一个「大号 Siri」。直到 22 年 11 月 30 日，OpenAI 更新了 GPT3.5，并上线了研究助手 ChatGPT。
