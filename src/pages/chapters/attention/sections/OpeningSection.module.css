@@ -83,6 +83,35 @@
   padding-top: 0;
 }
 
+.chapterLead {
+  max-width: 42em;
+  margin: 16px 0 4px;
+  padding: 14px 16px;
+  border-left: 2px solid var(--blue);
+  background: var(--bg-sub);
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--gray-dark);
+}
+
+.chapterLead a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--blue) 42%, transparent);
+}
+
+.chapterLead a:hover {
+  color: var(--blue-dark);
+  text-decoration-color: var(--blue-dark);
+}
+
+.chapterLead a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
 .prose {
   max-width: 42em;
   margin: 0 0 1.15em;
@@ -191,6 +220,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .prose a,
+  .chapterLead a,
   .furtherList a::before {
     transition: none;
   }
@@ -358,6 +388,14 @@
   line-height: 1.75;
   letter-spacing: 0.02em;
   color: var(--gray);
+}
+
+.originCiteZh strong {
+  font-weight: 600;
+  color: var(--navy);
+  background: color-mix(in srgb, var(--blue) 14%, transparent);
+  padding: 1px 5px;
+  border-radius: 4px;
 }
 
 .originCite footer {

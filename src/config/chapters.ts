@@ -1,6 +1,7 @@
 import type { Component } from "solid-js";
 import { SITE_NAME } from "./site";
 import { AttentionChapter } from "../pages/chapters/attention/AttentionChapter";
+import { TransformerBasicsChapter } from "../pages/chapters/attention/TransformerBasicsChapter";
 import { boundEssay } from "../pages/chapters/essay/bound";
 import { PrefaceChapter } from "../pages/chapters/PrefaceChapter";
 
@@ -61,11 +62,17 @@ export const COURSE_SECTIONS: CourseSection[] = [
     id: "modern-llm",
     title: "了解现代 LLM",
     chapters: [
-      doc("attention-is-all-you-need", "Transformer 的核心：注意力机制", {
+      doc("attention-is-all-you-need", "大模型的演进之路", {
         path: "/attention-is-all-you-need",
         cover: "/covers/attention-cover.webp",
         coverAlt: "线描的眼睛注视一块朱红印渍的活字卡片",
         Component: AttentionChapter,
+      }),
+      doc("transformer-basics", "Transformer 的基础结构", {
+        path: "/transformer-basics",
+        cover: "/covers/attention-cover.webp",
+        coverAlt: "线描的眼睛注视一块朱红印渍的活字卡片",
+        Component: TransformerBasicsChapter,
       }),
     ],
   },
